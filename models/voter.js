@@ -6,6 +6,8 @@ const VoterSchema = new Schema({
   voter: {
     type: String,
     default: 'voter',
+    min: 5,
+    max: 5
   },
   _id: {
     type: String,

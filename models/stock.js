@@ -5,11 +5,15 @@ mongoose.Promise = global.Promise;
 const StockSchema = new Schema({
   name: {
     type: String,
-    required: true
+    required: true,
+    min: 1,
+    max: 20
   },
   label: {
     type: String,
-    required: true
+    required: true,
+    min: 1,
+    max: 7
   },
   likes: {
     type: Number,
