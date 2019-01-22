@@ -6,10 +6,10 @@
 *       (if additional are added, keep them at the very end!)
 */
 
-var chai = require('chai');
-var StockHandler = require('../controllers/stockHandler.js');
+const chai = require('chai');
+const StockHandler = require('../controllers/stockHandler.js');
 
-var stockPrices = new StockHandler();
+const stockPrices = new StockHandler();
 
 suite('Unit Tests', function(){
 
