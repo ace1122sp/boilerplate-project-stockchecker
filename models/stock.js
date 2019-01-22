@@ -30,6 +30,12 @@ const StockSchema = new Schema({
   }
 });
 
+StockSchema.method({
+  updatePrice: () => {},
+  increaseLikes: () => {},
+  get: () => {}
+});
+
 const Stock = mongoose.model('Stock', StockSchema);
 
 module.exports = Stock;
