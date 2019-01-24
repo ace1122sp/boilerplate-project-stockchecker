@@ -29,5 +29,8 @@
 		"hyperdev",
 		"express"
 	],
-	"license": "MIT"
+	"license": "MIT",
+	"devDependencies": {
+		"dotenv": "^6.2.0"
+	}
 }
