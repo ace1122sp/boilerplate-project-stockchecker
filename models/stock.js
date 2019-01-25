@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
 
-const StockSchema = new Schema({
+const StockSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -31,9 +31,15 @@ const StockSchema = new Schema({
 });
 
 StockSchema.method({
-  updatePrice: () => {},
-  increaseLikes: () => {},
-  get: () => {}
+  updatePrice: function(price) {
+    this.price = price;
+    this.date = Date.now();
+    return this;
+  },
+  increaseLikes: function() {
+    this.likes += 1;
+    return this;
+  }
 });
 
 const Stock = mongoose.model('Stock', StockSchema);
