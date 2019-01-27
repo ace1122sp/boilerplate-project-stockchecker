@@ -9,7 +9,7 @@ const StockSchema = new mongoose.Schema({
     min: 1,
     max: 20
   },
-  label: {
+  symbol: {
     type: String,
     required: true,
     min: 1,
@@ -24,9 +24,13 @@ const StockSchema = new mongoose.Schema({
     type: Number,
     min: 0
   },
-  date: {
+  currency: {
     type: String,
-    default: new Date()
+    default: 'NA',
+    max: 5
+  },
+  date: {
+    type: String
   }
 });
 
