@@ -1,3 +1,5 @@
+const { sanitizeQuery } = require('express-validator/filter');
+
 const Stock = require('../models/stock');
 const { getLatestPrice, searchStock } = require('./api');
 
@@ -68,13 +70,19 @@ const _wrapIntoArray = arg => {
 }
 
 const sanitizeAndValidateQueries = (req, res, next) => {
-  // additionally it formats stock queries in an array
+  // implement validator
+    let f1 = sanitizeQuery('stock').escape().rtrim().ltrim();
 
   req.query.stock = _wrapIntoArray(req.query.stock);
   next();
 }
 
 const getStock = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+  
   if (!req.query.stock.length) next(); 
   res.locals.stocks = [];
   req.query.stock.forEach(symbol => {    
@@ -89,7 +97,9 @@ const getStock = async (req, res, next) => {
     });
 }
 
-const handleNoQueryStock = (req, res) => {}
+const handleNoQueryStock = (req, res) => {
+  res.sendStatus(400);
+}
 
 module.exports = {
   _oldPrice,

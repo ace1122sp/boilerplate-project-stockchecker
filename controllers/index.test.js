@@ -100,7 +100,7 @@ suite('controller functions', () => {
     });
   });
 
-  suite.only('_wrapIntoArray(arg)', () => {
+  suite('_wrapIntoArray(arg)', () => {
     test('string', done => {
       // test variables 
       const testString = 'google';

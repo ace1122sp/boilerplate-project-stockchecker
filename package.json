@@ -5,7 +5,8 @@
 	"main": "server.js",
 	"scripts": {
 		"start": "node server.js",
-		"test-api": "mocha ./controllers/api.test.js"
+		"test-api": "mocha ./controllers/api.test.js",
+		"test-controllers": "mocha ./controllers/index.test.js"
 	},
 	"dependencies": {
 		"axios": "^0.18.0",
@@ -14,6 +15,7 @@
 		"chai-http": "^4.2.1",
 		"cors": "^2.8.1",
 		"express": "^4.14.0",
+		"express-validator": "^5.3.1",
 		"helmet": "^3.1.0",
 		"mocha": "^5.2.0",
 		"mongodb": "^2.2.16",
