@@ -22,7 +22,8 @@ const StockSchema = new mongoose.Schema({
   },
   price: {
     type: Number,
-    min: 0
+    min: 0,
+    default: 0
   },
   currency: {
     type: String,
@@ -30,7 +31,8 @@ const StockSchema = new mongoose.Schema({
     max: 5
   },
   date: {
-    type: String
+    type: String,
+    default: '100'
   }
 });
 
