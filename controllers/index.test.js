@@ -5,7 +5,7 @@ require('dotenv').config(); // figure out if possible to use root .env
 const chai = require('chai');
 const mongoose = require('mongoose');
 const { suite, test, setup, suiteSetup, teardown, suiteTeardown } = require('mocha');
-const { _oldPrice, _fetchNewStock, _findUpdatedStock, sanitizeAndValidateQueries, getStock, handleNoQueryStock } = require('./index');
+const { _oldPrice, _fetchNewStock, _findUpdatedStock, _wrapIntoArray, sanitizeAndValidateQueries, getStock, handleNoQueryStock } = require('./index');
 const Stock = require('../models/stock');
 
 const assert = chai.assert;
@@ -55,7 +55,7 @@ suite('controller functions', () => {
     });
   });
 
-  suite.only('_findUpdatedStock(symbol, liked)', () => {
+  suite('_findUpdatedStock(symbol, liked)', () => {
     // expected
     const testSymbol = 'MSFT';
 
@@ -100,20 +100,40 @@ suite('controller functions', () => {
     });
   });
 
+  suite.only('_wrapIntoArray(arg)', () => {
+    test('string', done => {
+      // test variables 
+      const testString = 'google';
+
+      assert.isArray(_wrapIntoArray(testString));
+      assert.strictEqual(_wrapIntoArray(testString)[0], testString);
+      assert.lengthOf(_wrapIntoArray(testString), 1);
+      done();
+    });
+    test('array', done => {
+      // test variables 
+      const testArray = ['apple', 'facebook'];
+
+      assert.isArray(_wrapIntoArray(testArray));
+      assert.lengthOf(_wrapIntoArray(testArray), 2);
+      done();
+    });
+    test('undefined', done => {
+      // test variables 
+      const testString = undefined;
+
+      assert.isArray(_wrapIntoArray(testString));
+      assert.lengthOf(_wrapIntoArray(testString), 0);
+      done();
+    });
+  });
+
   suite('sanitizeAndValidateQueries()', () => {
     test('');
   });
 
-  suite('getStock()', () => {
-    test('');
+  suiteTeardown(() => {
+    console.log('tests finished');
+    process.exit(0);
   });
-
-  suite('handleNoQueryStock()', () => {
-    test('');
-  });
-
-  // suiteTeardown(() => {
-  //   console.log('tests finished');
-  //   process.exit(0);
-  // });
 });

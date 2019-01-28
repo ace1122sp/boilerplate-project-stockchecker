@@ -54,17 +54,23 @@ const _findUpdatedStock = (symbol, liked = false) => {
       });
 }
 
+const _wrapIntoArray = arg => {
+  let queries = [];
+  
+  if (!arg) return [];
+  if (typeof arg === 'string') {
+    queries.push(arg);
+  } else {
+    queries = [arg[0], arg[1]];
+  }
+
+  return queries;
+}
+
 const sanitizeAndValidateQueries = (req, res, next) => {
   // additionally it formats stock queries in an array
 
-  // pseudo
-  let queries = [];
-  if (typeof req.query.stock === 'string') {
-    queries.push(req.query.stock);
-  } else {
-    queries = [req.query.stock[0], req.query.stock[1]];
-  }
-  req.query.stock = [...queries];
+  req.query.stock = _wrapIntoArray(req.query.stock);
   next();
 }
 
@@ -89,6 +95,7 @@ module.exports = {
   _oldPrice,
   _fetchNewStock,
   _findUpdatedStock,
+  _wrapIntoArray,
   sanitizeAndValidateQueries,
   getStock,
   handleNoQueryStock
