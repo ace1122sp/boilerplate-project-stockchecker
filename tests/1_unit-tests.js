@@ -7,12 +7,12 @@
 */
 
 const chai = require('chai');
-const StockHandler = require('../controllers/stockHandler.js');
-
-const stockPrices = new StockHandler();
+const assert = chai.assert;
+const { suite } = require('mocha');
+const apiUnitTests = require('../controllers/api.test')
+const controllersUnitTests = require('../controllers/index.test')
 
 suite('Unit Tests', function(){
-
-//none requiered
-
+  apiUnitTests();
+  controllersUnitTests();
 });

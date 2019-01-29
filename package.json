@@ -5,6 +5,7 @@
 	"main": "server.js",
 	"scripts": {
 		"start": "node server.js",
+		"test": "mocha ./tests",
 		"test-api": "mocha ./controllers/api.test.js",
 		"test-controllers": "mocha ./controllers/index.test.js"
 	},
