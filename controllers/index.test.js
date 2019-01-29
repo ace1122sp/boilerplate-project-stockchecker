@@ -11,7 +11,7 @@ const Stock = require('../models/stock');
 const assert = chai.assert;
 
 suite('controller functions', () => {
-  // test variables
+  // arrange global
   const expectedKeys = ['name', 'price', 'symbol', 'date', 'currency', 'likes'];
 
   // pre hook setup: connect to test-db before tests  
@@ -28,26 +28,41 @@ suite('controller functions', () => {
 
   suite('_oldPrice()', () => {
     test('old date', done => {
+      // arrange
       const oldDate = '1000';      
 
-      assert.isTrue(_oldPrice(oldDate));
+      // act 
+      const actual = _oldPrice(oldDate);
+
+      // assert
+      assert.isTrue(actual);
+
       done();
     });
 
     test('date still valid', done => {
+      // arrange
       const validDate = JSON.stringify(parseInt(Date.now()) - 1000 * 60 * 60 * 5);
+
+      // act 
+      const actual = _oldPrice(validDate);
+
+      // assert
+      assert.isFalse(actual);
       
-      assert.isFalse(_oldPrice(validDate));
       done();
     });
   });
 
-  suite('_fetchNewStock(symbol)', () => {    
-    const testSymbol = 'MSFT';
-    
-    test('valid usage', () => {      
+  suite('_fetchNewStock(symbol)', () => {          
+    test('valid usage', () => {            
+      // arrange
+      const testSymbol = 'MSFT';      
+      
+      // act
       _fetchNewStock(testSymbol)
-        .then(stock => {          
+      .then(stock => {          
+          // assert
           assert.hasAllKeys(stock, expectedKeys, 'some keys missing');
           assert.propertyVal(stock, 'symbol', testSymbol);
         })
@@ -56,45 +71,55 @@ suite('controller functions', () => {
   });
 
   suite('_findUpdatedStock(symbol, liked)', () => {
-    // expected
+    // arrange
     const testSymbol = 'MSFT';
+    const expected = {
+      name: 'Microsoft Corporation',
+      currency: 'USD'
+    };
 
     // test after all to delete added stocks
-    test('when stock not in db', () => {
+    test('when stock not in db', () => {    
+      // act
       _findUpdatedStock(testSymbol)
         .then(stock => {
+          //assert
           assert.hasAllKeys(stock, expectedKeys);
           assert.strictEqual(stock.symbol, testSymbol);
           assert.strictEqual(stock.likes, 0);
-          assert.strictEqual(stock.name, 'Microsoft Corporation');
-          assert.strictEqual(stock.currency, 'USD');
+          assert.strictEqual(stock.name, expected.name);
+          assert.strictEqual(stock.currency, expected.currency);
         })
         .catch(() => {});
     });
     test('when stock in db', () => {
-      // test variables
+      // arrange
       const timeBeforeTest = Date.now();
 
+      // act
       _findUpdatedStock(testSymbol)
         .then(stock => {
+          // assert
           assert.hasAllKeys(stock, expectedKeys);
           assert.strictEqual(stock.symbol, testSymbol);
           assert.strictEqual(stock.likes, 0);
-          assert.strictEqual(stock.name, 'Microsoft Corporation');
-          assert.strictEqual(stock.currency, 'USD');
+          assert.strictEqual(stock.name, expected.name);
+          assert.strictEqual(stock.currency, expected.currency);
           assert.isBelow(parseInt(stock.date), parseInt(timeBeforeTest));
         })
         .catch(() => {});
     });
 
     test('when stock in db and arg liked=true', () => {
+      // act
       _findUpdatedStock(testSymbol, true)
         .then(stock => {
+          // assert
           assert.hasAllKeys(stock, expectedKeys);
           assert.strictEqual(stock.symbol, testSymbol);
           assert.strictEqual(stock.likes, 1);
-          assert.strictEqual(stock.name, 'Microsoft Corporation');
-          assert.strictEqual(stock.currency, 'USD');          
+          assert.strictEqual(stock.name, expected.name);
+          assert.strictEqual(stock.currency, expected.currency);          
         })
         .catch(() => { });
     });
@@ -102,28 +127,47 @@ suite('controller functions', () => {
 
   suite('_wrapIntoArray(arg)', () => {
     test('string', done => {
-      // test variables 
+      // arrange 
       const testString = 'google';
+      const expectedLength = 1;
 
-      assert.isArray(_wrapIntoArray(testString));
-      assert.strictEqual(_wrapIntoArray(testString)[0], testString);
-      assert.lengthOf(_wrapIntoArray(testString), 1);
+      // act 
+      const actual = _wrapIntoArray(testString);
+      const actualAtZero = actual[0];
+      
+      // assert
+      assert.isArray(actual);
+      assert.strictEqual(actualAtZero, testString);
+      assert.lengthOf(actual, expectedLength);
+
       done();
     });
     test('array', done => {
-      // test variables 
+      // arrange 
       const testArray = ['apple', 'facebook'];
+      const expectedLength = 2;
 
-      assert.isArray(_wrapIntoArray(testArray));
-      assert.lengthOf(_wrapIntoArray(testArray), 2);
+      // act
+      const actual = _wrapIntoArray(testArray);
+
+      // assert
+      assert.isArray(actual);
+      assert.lengthOf(actual, expectedLength);
+
       done();
     });
     test('undefined', done => {
-      // test variables 
+      // arrange 
       const testString = undefined;
+      const expectedLength = 0;
 
-      assert.isArray(_wrapIntoArray(testString));
-      assert.lengthOf(_wrapIntoArray(testString), 0);
+      // act
+      const actual = _wrapIntoArray(testString);
+            
+      // assert
+      assert.isArray(actual);
+      assert.lengthOf(actual, expectedLength);
+
       done();
     });
   });
