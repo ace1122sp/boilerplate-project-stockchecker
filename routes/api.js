@@ -8,10 +8,10 @@
 
 'use strict';
 
-const { getStock } = require('../controllers');
+const { sanitizeAndValidateQueries, getStock, handleNoQueryStock } = require('../controllers');
 
 module.exports = function (app) {
 
   app.route('/api/stock-prices')
-    .get(getStock);    
+    .get(sanitizeAndValidateQueries, getStock, handleNoQueryStock);    
 };

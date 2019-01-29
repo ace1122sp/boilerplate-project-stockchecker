@@ -1,4 +1,5 @@
 const { sanitizeQuery } = require('express-validator/filter');
+const { query, validationResult } = require('express-validator/check');
 
 const Stock = require('../models/stock');
 const { getLatestPrice, searchStock } = require('./api');
@@ -69,27 +70,33 @@ const _wrapIntoArray = arg => {
   return queries;
 }
 
-const sanitizeAndValidateQueries = (req, res, next) => {
-  // implement validator
-    let f1 = sanitizeQuery('stock').escape().rtrim().ltrim();
+const sanitizeAndValidateQueries = [
+  sanitizeQuery('stock')
+    .trim()
+    .escape(),
+  sanitizeQuery('like')
+    .toBoolean()
+];
 
-  req.query.stock = _wrapIntoArray(req.query.stock);
-  next();
-}
-
-const getStock = async (req, res, next) => {
+const getStock = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).json({ errors: errors.array() });
   }
   
-  if (!req.query.stock.length) next(); 
+  req.query.stock = _wrapIntoArray(req.query.stock);  
+  
+  if (!req.query.stock.length) return next(); 
+
   res.locals.stocks = [];
   req.query.stock.forEach(symbol => {    
-    res.locals.stocks.push(_findUpdatedStock(symbol));
-  });
-  Promise.all(res.locals.stocks)
+    res.locals.stocks.push(_findUpdatedStock(symbol));    
+  });  
+  
+  Promise.all(res.locals.stocks)  
     .then(stocks => {
+      console.log(stocks);
+      console.log(typeof stocks[0]);
       res.json({ stockData: [...stocks] })
     })
     .catch(err => {
@@ -97,7 +104,7 @@ const getStock = async (req, res, next) => {
     });
 }
 
-const handleNoQueryStock = (req, res) => {
+const handleNoQueryStock = (req, res) => {  
   res.sendStatus(400);
 }
 

@@ -1,6 +1,8 @@
 'use strict';
+require('dotenv').config();
 
 const express = require('express');
+const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
@@ -9,6 +11,16 @@ const fccTestingRoutes = require('./routes/fcctesting.js');
 const runner = require('./test-runner');
 
 const app = express();
+
+// connect to db this need to be edited and cleaned up
+mongoose.connect('mongodb://localhost:27017/stockpicker', { useNewUrlParser: true })
+  .then(() => {
+    console.log('connected to db');
+  })
+  .catch(() => {
+    console.error(err.message);
+    process.exit(1);
+  });
 
 app.use('/public', express.static(process.cwd() + '/public'));
 
@@ -53,4 +65,3 @@ app.listen(process.env.PORT || 3000, function () {
   }
 });
 
-module.exports = app; //for testing
