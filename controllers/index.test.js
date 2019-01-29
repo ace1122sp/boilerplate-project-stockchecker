@@ -4,9 +4,8 @@ require('dotenv').config(); // figure out if possible to use root .env
 
 const chai = require('chai');
 const mongoose = require('mongoose');
-const { suite, test, setup, suiteSetup, teardown, suiteTeardown } = require('mocha');
-const { _oldPrice, _fetchNewStock, _findUpdatedStock, _wrapIntoArray, sanitizeAndValidateQueries, getStock, handleNoQueryStock } = require('./index');
-const Stock = require('../models/stock');
+const { suite, test, suiteSetup, suiteTeardown } = require('mocha');
+const { _oldPrice, _fetchNewStock, _findUpdatedStock, _wrapIntoArray } = require('./index');
 
 const assert = chai.assert;
 
