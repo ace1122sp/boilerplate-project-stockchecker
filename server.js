@@ -1,6 +1,7 @@
 'use strict';
 require('dotenv').config();
 
+const config = require('./config');
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -13,7 +14,8 @@ const runner = require('./test-runner');
 const app = express();
 
 // connect to db this need to be edited and cleaned up
-mongoose.connect('mongodb://localhost:27017/stockpicker', { useNewUrlParser: true })
+mongoose.Promise = global.Promise;
+mongoose.connect(config.db.mongoURI, { useNewUrlParser: true })
   .then(() => {
     console.log('connected to db');
   })
