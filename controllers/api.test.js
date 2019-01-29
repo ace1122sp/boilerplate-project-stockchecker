@@ -11,6 +11,7 @@ const assert = chai.assert;
 suite('test server calls to stock prices api', () => {
   suite('searchStock(symbol)', () => {
     test('valid symbol provided', () => {
+      // arrange 
       const symbolToTest = 'BA';
       const expected = {
         message: 'found',
@@ -22,11 +23,13 @@ suite('test server calls to stock prices api', () => {
         }
       };
 
+      // act 
       return searchStock(symbolToTest)
         .then(res => {
+          // assert 
           assert.hasAllKeys(res, Object.keys(expected), 'keys do not match');
-          assert.propertyVal(res, 'message', 'found');
-          assert.propertyVal(res, 'status', 'ok');
+          assert.propertyVal(res, 'message', expected.message);
+          assert.propertyVal(res, 'status', expected.status);
           assert.propertyVal(res.data, 'name', expected.data.name);
           assert.propertyVal(res.data, 'symbol', expected.data.symbol);
           assert.propertyVal(res.data, 'currency', expected.data.currency);
@@ -36,15 +39,18 @@ suite('test server calls to stock prices api', () => {
 
   suite('getLatestPrice(symbol)', () => {
     test('valid symbol provided', () => {
+      // arrange
       const symbolToTest = 'GOOG';
       const expectedKeys = ['message', 'status', 'data'];
-      
+
+      // act 
       return getLatestPrice(symbolToTest)
-        .then(res => {
-          assert.hasAllKeys(res, expectedKeys, 'keys do not match');
-          assert.propertyVal(res.data, 'symbol', symbolToTest);
-          assert.property(res.data, 'price');
-        });
+      .then(res => {
+        // assert
+        assert.hasAllKeys(res, expectedKeys, 'keys do not match');
+        assert.propertyVal(res.data, 'symbol', symbolToTest);
+        assert.property(res.data, 'price');
+      });
     });
   });
 });
