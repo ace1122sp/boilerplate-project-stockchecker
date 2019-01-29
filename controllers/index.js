@@ -1,5 +1,5 @@
 const { sanitizeQuery } = require('express-validator/filter');
-const { query, validationResult } = require('express-validator/check');
+const { validationResult } = require('express-validator/check');
 
 const Stock = require('../models/stock');
 const { getLatestPrice, searchStock } = require('./api');
@@ -14,13 +14,15 @@ const _oldPrice = date => {
   return isOld;
 }
 
-// _ to return promises
 // returns Stock instance which does not exist in db yet
 const _fetchNewStock = symbol => {
   return searchStock(symbol)
-    .then(data => {
-      let stock = new Stock(data.data);
-      return stock        
+    .then(data => {      
+      return Stock.findOne({ symbol: data.data.symbol })
+        .then(stock => {
+          if (!stock) return new Stock(data.data);
+          return stock;
+        });
     })
     .catch(err => {
       // to handle
@@ -28,11 +30,11 @@ const _fetchNewStock = symbol => {
 }
 const _findUpdatedStock = (symbol, liked = false) => {    
     return Stock.findOne({ symbol })
-      .then(stock => {
-        if (!stock) return _fetchNewStock(symbol)
+      .then(stock => {        
+        if (!stock) return _fetchNewStock(symbol);      
         return stock;
       })
-      .then(stock => {        
+      .then(stock => {    
         if (_oldPrice(stock.date)) {
           return getLatestPrice(stock.symbol)
             .then(res => {
@@ -49,8 +51,8 @@ const _findUpdatedStock = (symbol, liked = false) => {
         if (liked) stock.increaseLikes();
         return stock;
       })
-      .then(stock => {        
-        return stock.save()
+      .then(stock => {
+        return stock.save();
       })
       .catch(err => {
         // to handle
@@ -90,14 +92,24 @@ const getStock = (req, res, next) => {
 
   res.locals.stocks = [];
   req.query.stock.forEach(symbol => {    
-    res.locals.stocks.push(_findUpdatedStock(symbol));    
+    res.locals.stocks.push(_findUpdatedStock(symbol, req.query.like));    
   });  
   
   Promise.all(res.locals.stocks)  
     .then(stocks => {
-      console.log(stocks);
-      console.log(typeof stocks[0]);
-      res.json({ stockData: [...stocks] })
+      let cleanedStocks = stocks.map(stock => {
+        if (!stock) return { message: 'not found', code: 404 };
+
+        return {
+          name: stock.name,
+          symbol: stock.symbol,
+          price: stock.price,
+          currency: stock.currency,
+          likes: stock.likes,
+          date: stock.date
+        };
+      });
+      res.json({ stockData: [...cleanedStocks] });
     })
     .catch(err => {
       next(err);
