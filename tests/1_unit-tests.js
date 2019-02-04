@@ -6,13 +6,13 @@
 *       (if additional are added, keep them at the very end!)
 */
 
-const chai = require('chai');
-const assert = chai.assert;
 const { suite } = require('mocha');
-const apiUnitTests = require('../controllers/api.test')
-const controllersUnitTests = require('../controllers/index.test')
+const apiUnitTests = require('../controllers/api.test');
+const votersUnitTests = require('../constrollers/voters.test.js');
+const controllersUnitTests = require('../controllers/index.test');
 
 suite('Unit Tests', function(){
   apiUnitTests();
+  votersUnitTests();
   controllersUnitTests();
 });

@@ -2,16 +2,13 @@ const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
 
-const VoterSchema = new Schema({
+
+const VoterSchema = new mongoose.Schema({
   voter: {
     type: String,
-    default: 'voter',
+    required: true,
     min: 5,
     max: 5
-  },
-  _id: {
-    type: String,
-    required: true
   }
 });
 
