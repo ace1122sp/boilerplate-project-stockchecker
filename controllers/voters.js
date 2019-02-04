@@ -1,6 +1,6 @@
 const Voter = require('../models/voter');
 
-const checkIfVotedAndSaveIfNot = voterIp => {
+const checkIfVotedAndSaveIfNot = voterIp =>
   Voter.findOne({ voterIp })
     .then(res => {
       if (res) return true;
@@ -13,8 +13,9 @@ const checkIfVotedAndSaveIfNot = voterIp => {
       if (res) return true;
       return false;
     })
-    .catch(err => {}) // to handle
-}
+    .catch(err => {
+      console.log(err);
+    }) // to handle
 
 module.exports = {
   checkIfVotedAndSaveIfNot

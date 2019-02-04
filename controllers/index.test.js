@@ -3,8 +3,7 @@
 require('dotenv').config(); // figure out if possible to use root .env
 
 const chai = require('chai');
-const mongoose = require('mongoose');
-const { suite, test, suiteSetup, suiteTeardown } = require('mocha');
+const { suite, test, suiteTeardown } = require('mocha');
 const { _oldPrice, _fetchNewStock, _findUpdatedStock, _wrapIntoArray } = require('./index');
 
 const assert = chai.assert;
@@ -13,18 +12,6 @@ module.exports = () => {
   suite('controller functions', () => {
     // arrange global
     const expectedKeys = ['name', 'price', 'symbol', 'date', 'currency', 'likes'];
-
-    // pre hook setup: connect to test-db before tests  
-    suiteSetup(async () => {
-      await mongoose.connect('mongodb://localhost:27017/stockpicker-test', { useNewUrlParser: true })
-        .then(() => {
-          console.log('connected to test db');
-        })
-        .catch(() => {
-          console.error(err.message);
-          process.exit(1);
-        })
-    });
 
     suite('_oldPrice()', () => {
       test('old date', done => {

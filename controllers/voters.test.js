@@ -9,37 +9,37 @@ const assert = chai.assert;
 
 module.exports = () => {
   suite('handling voters functions', () => {
-    // pre hook setup: connect to test-db before tests  
-    suiteSetup(async () => {
-      await mongoose.connect('mongodb://localhost:27017/stockpicker-test', { useNewUrlParser: true })
-        .then(() => {
-          console.log('connected to test db');
-        })
-        .catch(() => {
-          console.error(err.message);
-          process.exit(1);
-        });
-    });
-
     suite('checkIfVotedAndSaveIfNot(voterIp)', () => {
-      test('not voted', done => {
+      // arrange
+      const testIp = '211.33.32.22';
+
+      test('not voted', () => {
         // arrange 
-        const testIp = '211.33.32.22';
         const expected = false;
 
         // act
-        const actual = checkIfVotedAndSaveIfNot(testIp);
-
-        // assert
-        assert.strictEqual(actual, expected);
-
-        done();
+        return checkIfVotedAndSaveIfNot(testIp)
+          .then(actual => {                      
+            // assert
+            console.log('actual result: ', actual);
+            assert.strictEqual(actual, expected);
+          });
       });
-      test('already voted');
+      test('already voted', () => {
+        // arrange
+        const expected = true;
+
+        // act
+        return checkIfVotedAndSaveIfNot(testIp)
+          .then(actual => {
+            console.log('actual result: ', actual);
+            assert.strictEqual(actual, expected);
+          });
+      });
     });
 
     suiteTeardown(() => {
-      console.log('tests finished');
+      console.log('voters tests finished');
     });
   });
 }
