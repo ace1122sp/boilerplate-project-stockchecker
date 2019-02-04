@@ -177,8 +177,7 @@ module.exports = () => {
     });
 
     suiteTeardown(() => {
-      console.log('tests finished');
-      process.exit(0);
+      console.log('tests finished');      
     });
   });
 }

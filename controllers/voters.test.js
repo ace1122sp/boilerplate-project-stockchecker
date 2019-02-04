@@ -3,7 +3,7 @@
 const chai = require('chai');
 const { suite, test, suiteSetup, suiteTeardown } = require('mocha');
 const mongoose = require('mongoose');
-const { add, get } = require('./voters');
+const { checkIfVotedAndSaveIfNot } = require('./voters');
 
 const assert = chai.assert;
 
@@ -22,13 +22,24 @@ module.exports = () => {
     });
 
     suite('checkIfVotedAndSaveIfNot(voterIp)', () => {
-      test('not voted');
+      test('not voted', done => {
+        // arrange 
+        const testIp = '211.33.32.22';
+        const expected = false;
+
+        // act
+        const actual = checkIfVotedAndSaveIfNot(testIp);
+
+        // assert
+        assert.strictEqual(actual, expected);
+
+        done();
+      });
       test('already voted');
     });
 
     suiteTeardown(() => {
       console.log('tests finished');
-      process.exit(0);
     });
   });
 }
