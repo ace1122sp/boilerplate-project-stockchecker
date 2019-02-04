@@ -159,12 +159,8 @@ module.exports = () => {
       });
     });
 
-    suite('sanitizeAndValidateQueries()', () => {
-      test('');
-    });
-
     suiteTeardown(() => {
-      console.log('tests finished');      
+      console.log('index tests finished');      
     });
   });
 }

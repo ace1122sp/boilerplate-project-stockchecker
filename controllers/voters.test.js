@@ -1,9 +1,9 @@
 'use strict';
 
 const chai = require('chai');
-const { suite, test, suiteSetup, suiteTeardown } = require('mocha');
-const mongoose = require('mongoose');
+const { suite, test, suiteTeardown } = require('mocha');
 const { checkIfVotedAndSaveIfNot } = require('./voters');
+const Voter = require('../models/voter');
 
 const assert = chai.assert;
 
@@ -21,7 +21,6 @@ module.exports = () => {
         return checkIfVotedAndSaveIfNot(testIp)
           .then(actual => {                      
             // assert
-            console.log('actual result: ', actual);
             assert.strictEqual(actual, expected);
           });
       });
@@ -32,14 +31,13 @@ module.exports = () => {
         // act
         return checkIfVotedAndSaveIfNot(testIp)
           .then(actual => {
-            console.log('actual result: ', actual);
             assert.strictEqual(actual, expected);
           });
-      });
+      });      
     });
-
-    suiteTeardown(() => {
-      console.log('voters tests finished');
+    
+    suiteTeardown(() => {   
+      console.log('voters tests executed');
     });
   });
 }
