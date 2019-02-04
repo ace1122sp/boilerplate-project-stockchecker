@@ -1,6 +1,7 @@
 'use strict';
 
 const chai = require('chai');
+const { suite, test } = require('mocha');
 const mongoose = require('mongoose');
 const { add, get } = require('./voters');
 

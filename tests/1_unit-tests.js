@@ -8,7 +8,7 @@
 
 const { suite } = require('mocha');
 const apiUnitTests = require('../controllers/api.test');
-const votersUnitTests = require('../constrollers/voters.test.js');
+const votersUnitTests = require('../controllers/voters.test.js');
 const controllersUnitTests = require('../controllers/index.test');
 
 suite('Unit Tests', function(){
