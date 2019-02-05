@@ -24,9 +24,9 @@ suite('Unit Tests', function(){
       });
   });
 
-  // apiUnitTests();
+  apiUnitTests();
   votersUnitTests();
-  // controllersUnitTests();
+  controllersUnitTests();
 
   suiteTeardown(() => {
     console.log('all unit tests executed');
