@@ -7,6 +7,15 @@ const Voter = require('../models/voter');
 
 const assert = chai.assert;
 
+const _dropVotersCollection = (done) => {
+  Voter.deleteMany({}, err => {
+    if (err) {
+      console.log(err); // to handle;
+    }
+    done();
+  });
+}
+
 module.exports = () => {
   suite('handling voters functions', () => {
     suite('checkIfVotedAndSaveIfNot(voterIp)', () => {
@@ -36,7 +45,8 @@ module.exports = () => {
       });      
     });
     
-    suiteTeardown(() => {   
+    suiteTeardown(done => {   
+      _dropVotersCollection(done)
       console.log('voters tests executed');
     });
   });
