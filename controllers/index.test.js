@@ -57,7 +57,7 @@ module.exports = () => {
       });
     });
 
-    suite('_findUpdatedStock(symbol, liked)', () => {
+    suite('_findUpdatedStock(symbol, voterIp, liked)', () => {
       // arrange
       const testSymbol = 'MSFT';
       const expected = {

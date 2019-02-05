@@ -3,6 +3,7 @@ const { validationResult } = require('express-validator/check');
 
 const Stock = require('../models/stock');
 const { getLatestPrice, searchStock } = require('./api');
+const { checkIfVotedAndSaveIfNot } = require('./voters');
 
 const _oldPrice = date => {
   const maxAge = 1000 * 60 * 60 * 24;
@@ -28,7 +29,7 @@ const _fetchNewStock = symbol => {
       // to handle
     });
 }
-const _findUpdatedStock = (symbol, liked = false) => {    
+const _findUpdatedStock = (symbol, voterIp, liked = false) => {    
     return Stock.findOne({ symbol })
       .then(stock => {        
         if (!stock) return _fetchNewStock(symbol);      
@@ -48,8 +49,14 @@ const _findUpdatedStock = (symbol, liked = false) => {
         }
       })
       .then(stock => {
-        if (liked) stock.increaseLikes();
-        return stock;
+        return checkIfVotedAndSaveIfNot(voterIp)
+          .then(voted => {
+            return { stock, voted };
+          });
+      })
+      .then(res => {  
+        if (liked && !res.voted) res.stock.increaseLikes();
+        return res.stock;
       })
       .then(stock => {
         return stock.save();
@@ -92,7 +99,7 @@ const getStock = (req, res, next) => {
 
   res.locals.stocks = [];
   req.query.stock.forEach(symbol => {    
-    res.locals.stocks.push(_findUpdatedStock(symbol, req.query.like));    
+    res.locals.stocks.push(_findUpdatedStock(symbol, req.ip, req.query.like));    
   });  
   
   Promise.all(res.locals.stocks)  
