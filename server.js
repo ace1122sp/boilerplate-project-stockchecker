@@ -67,3 +67,5 @@ app.listen(config.app.port || 3000, function () {
   }
 });
 
+// for testing purposes
+module.exports = app;
