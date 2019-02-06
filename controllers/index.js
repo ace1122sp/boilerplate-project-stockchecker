@@ -49,14 +49,13 @@ const _findUpdatedStock = (symbol, voterIp, liked = false) => {
         }
       })
       .then(stock => {
+        if (!liked) return stock;
         return checkIfVotedAndSaveIfNot(voterIp)
           .then(voted => {
-            return { stock, voted };
-          });
-      })
-      .then(res => {  
-        if (liked && !res.voted) res.stock.increaseLikes();
-        return res.stock;
+            if (voted) return stock;
+            return stock.increaseLikes();
+          })
+          .catch(err => {}) // to handle;
       })
       .then(stock => {
         return stock.save();

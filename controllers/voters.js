@@ -15,7 +15,7 @@ const checkIfVotedAndSaveIfNot = voterIp =>
     })
     .catch(err => {
       console.log(err);
-    }) // to handle
+    }); // to handle
 
 module.exports = {
   checkIfVotedAndSaveIfNot
