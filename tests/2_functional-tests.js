@@ -32,6 +32,8 @@ const teardownDB = done =>
     })
     .catch(err => {}); // to handle
 
+// if unit-integration tests are executed before functional tests, all functional tests will fail
+// in order to functional tests pass, unit tests have to be skipped
 // at this moment tests are passing only for first suite or any single suit under test
 suite('Functional Tests', function() {
     
