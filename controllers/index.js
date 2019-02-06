@@ -40,10 +40,7 @@ const _findUpdatedStock = (symbol, voterIp, liked = false) => {
           return getLatestPrice(stock.symbol)
             .then(res => {
               return stock.updatePrice(parseFloat(res.data.price))
-            })            
-            .catch(err => {
-              // to handle
-            });          
+            })          
         } else {
           return stock;
         }
@@ -56,7 +53,6 @@ const _findUpdatedStock = (symbol, voterIp, liked = false) => {
             stock.increaseLikes();
             return stock;
           })
-          .catch(err => {}) // to handle;
       })
       .then(stock => {
         return stock.save();
