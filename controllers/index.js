@@ -3,7 +3,7 @@ const { validationResult } = require('express-validator/check');
 
 const Stock = require('../models/stock');
 const { getLatestPrice, searchStock } = require('./api');
-const { checkIfVotedAndSaveIfNot } = require('./voters');
+const { checkIfVoted, addVoter } = require('./voters');
 
 const _oldPrice = date => {
   const maxAge = 1000 * 60 * 60 * 24;
@@ -42,7 +42,7 @@ const _findUpdatedStock = (symbol, voterIp, liked = false) => {
               return stock.updatePrice(parseFloat(res.data.price))
             })            
             .catch(err => {
-              throw err;
+              // to handle
             });          
         } else {
           return stock;
@@ -50,10 +50,11 @@ const _findUpdatedStock = (symbol, voterIp, liked = false) => {
       })
       .then(stock => {
         if (!liked) return stock;
-        return checkIfVotedAndSaveIfNot(voterIp)
+        return checkIfVoted(voterIp)
           .then(voted => {
             if (voted) return stock;
-            return stock.increaseLikes();
+            stock.increaseLikes();
+            return stock;
           })
           .catch(err => {}) // to handle;
       })
@@ -115,7 +116,18 @@ const getStock = (req, res, next) => {
           date: stock.date
         };
       });
-      res.json({ stockData: [...cleanedStocks] });
+
+      if (req.query.like) {
+        addVoter(req.ip)
+          .then(() => {
+            res.json({ stockData: [...cleanedStocks] });
+          })
+          .catch(() => {
+            next(err);
+          }) // to handle
+      } else {
+        res.json({ stockData: [...cleanedStocks] });
+      }
     })
     .catch(err => {
       next(err);
