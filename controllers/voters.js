@@ -1,4 +1,5 @@
 const Voter = require('../models/voter');
+const errorHandler = process.env.NODE_env == 'PRODUCTION' ? require('../libs/prodErrorHandler') : require('../libs/devErrorHandler');
 
 const checkIfVoted = voterIp =>
   Voter.findOne({ voterIp })
@@ -6,7 +7,9 @@ const checkIfVoted = voterIp =>
       if (res) return true;
       return false      
     })
-    .catch(err => {}); // to handle
+    .catch(err => {
+      errorHandler.handleVoters(err);
+    });
 
 const addVoter = voterIp => 
   Voter.findOne({ voterIp })
@@ -17,7 +20,9 @@ const addVoter = voterIp =>
           .then(() => {
             return;
           })
-          .catch(err => {}) // to handle
+          .catch(err => {
+            errorHandler.handleVoters(err);
+          });
       }
     });
 
