@@ -1,4 +1,5 @@
 const axios = require('axios');
+const errorHandler = process.env.NODE_ENV === 'PRODUCTION' ? require('../libs/prodErrorHandler') : require('../libs/devErrorHandler');
 
 const searchStock = symbol => {
   const url = `${process.env.STOCK_API_BASE_URL}/query?function=SYMBOL_SEARCH&keywords=${symbol}&apikey=${process.env.STOCK_API_KEY}`;
@@ -7,6 +8,7 @@ const searchStock = symbol => {
     .then(res => res.data.bestMatches[0] || null)
     .then(stock => {
       if (!stock) return { message: 'not found', status: 'na' };
+      
       return { 
         message: 'found', 
         status: 'ok', 
@@ -18,7 +20,7 @@ const searchStock = symbol => {
       }
     })
     .catch(err => {
-      return { message: err.message, status: 'error' }
+      return errorHandler.handleApi(err);
     });
 }
 
@@ -37,9 +39,9 @@ const getLatestPrice = symbol => {
           price: stock['05. price']
         }
       }
-    })
+    })    
     .catch(err => {
-      return { message: err.message, status: 'error' }
+      return errorHandler.handleApi(err);
     });
 }
 
