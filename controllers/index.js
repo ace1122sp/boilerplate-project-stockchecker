@@ -118,7 +118,7 @@ const getStock = (req, res, next) => {
           .then(() => {
             res.json({ stockData: [...cleanedStocks] });
           })
-          .catch(() => {
+          .catch(err => {
             next(err);
           });
       } else {
