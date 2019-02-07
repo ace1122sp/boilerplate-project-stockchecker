@@ -53,7 +53,7 @@ module.exports = () => {
             assert.hasAllKeys(stock, expectedKeys, 'some keys missing');
             assert.propertyVal(stock, 'symbol', testSymbol);
           })
-          .catch(() => { });
+          .catch(err => {});
       });
     });
 
@@ -77,7 +77,7 @@ module.exports = () => {
             assert.strictEqual(stock.name, expected.name);
             assert.strictEqual(stock.currency, expected.currency);
           })
-          .catch(() => { });
+          .catch(err => {});
       });
       test('when stock in db', () => {
         // arrange
@@ -94,7 +94,7 @@ module.exports = () => {
             assert.strictEqual(stock.currency, expected.currency);
             assert.isBelow(parseInt(stock.date), parseInt(timeBeforeTest));
           })
-          .catch(() => { });
+          .catch(err => {});
       });
 
       test('when stock in db and arg liked=true', () => {
@@ -108,7 +108,7 @@ module.exports = () => {
             assert.strictEqual(stock.name, expected.name);
             assert.strictEqual(stock.currency, expected.currency);
           })
-          .catch(() => { });
+          .catch(() => {});
       });
     });
 

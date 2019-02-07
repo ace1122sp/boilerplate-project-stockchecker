@@ -9,6 +9,7 @@
 const chaiHttp = require('chai-http');
 const chai = require('chai');
 const assert = chai.assert;
+const errorHandler = require('../libs/devErrorHandler');
 const server = require('../server');
 const { suite, test, suiteTeardown } = require('mocha');
 const Voter = require('../models/voter');
@@ -27,10 +28,12 @@ const _dropCollection = Model => {
 const teardownDB = done => 
   Promise.all([_dropCollection(Voter), _dropCollection(Stock)])
     .then(() => {
-      console.log('subsuite torn down ---');
+      console.log('subsuite torn down ---');      
       done();
     })
-    .catch(err => {}); // to handle
+    .catch(err => {
+      errorHandler.handleTest(err);
+    });
 
 // if unit-integration tests are executed before functional tests, all functional tests will fail
 // in order to functional tests pass, unit tests have to be skipped
