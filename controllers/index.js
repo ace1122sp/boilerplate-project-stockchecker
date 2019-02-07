@@ -26,7 +26,7 @@ const _fetchNewStock = symbol => {
         });
     })
     .catch(err => {
-      // to handle
+      throw err;
     });
 }
 const _findUpdatedStock = (symbol, voterIp, liked = false) => {    
@@ -58,7 +58,7 @@ const _findUpdatedStock = (symbol, voterIp, liked = false) => {
         return stock.save();
       })
       .catch(err => {
-        // to handle
+        throw err;
       });
 }
 
@@ -120,7 +120,7 @@ const getStock = (req, res, next) => {
           })
           .catch(() => {
             next(err);
-          }) // to handle
+          });
       } else {
         res.json({ stockData: [...cleanedStocks] });
       }
