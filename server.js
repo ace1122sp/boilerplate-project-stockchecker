@@ -5,6 +5,7 @@ const config = require('./config');
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const helmet = require('helmet');
 const cors = require('cors');
 
 const apiRoutes = require('./routes/api.js');
@@ -29,7 +30,7 @@ mongoose.connect(config.db.mongoURI, { useNewUrlParser: true })
 app.use('/public', express.static(process.cwd() + '/public'));
 
 app.use(cors({origin: '*'})); //For FCC testing purposes only
-
+app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
