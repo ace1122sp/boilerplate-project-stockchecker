@@ -30,11 +30,11 @@ mongoose.connect(config.db.mongoURI, { useNewUrlParser: true })
 
 app.use('/public', express.static(process.cwd() + '/public'));
 
-app.use(cors({origin: '*'})); //For FCC testing purposes only
+app.use(cors({ origin: '*' })); //For FCC testing purposes only
 app.use(helmet());
 app.use((req, res, next) => {
   res.set({
-    'Content-Security-Policy': "default-src 'self'"
+    // 'Content-Security-Policy': "default-src 'self'"
   });
 
   next();
