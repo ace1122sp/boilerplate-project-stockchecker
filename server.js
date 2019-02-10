@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const cors = require('cors');
+const morgan = require('morgan');
 
 const apiRoutes = require('./routes/api.js');
 const fccTestingRoutes = require('./routes/fcctesting.js');
@@ -31,8 +32,21 @@ app.use('/public', express.static(process.cwd() + '/public'));
 
 app.use(cors({origin: '*'})); //For FCC testing purposes only
 app.use(helmet());
+app.use((req, res, next) => {
+  res.set({
+    'Content-Security-Policy': "default-src 'self'"
+  });
+
+  next();
+});
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(morgan('dev'));
+
+// test route
+app.get('/testside', (req, res) => {
+  res.sendFile(process.cwd() + '/views/testside.html');
+});
 
 //Index page (static HTML)
 app.route('/')
