@@ -19,6 +19,7 @@
 		"mocha": "^5.2.0",
 		"mongodb": "^2.2.16",
 		"mongoose": "^5.4.7",
+		"morgan": "^1.9.1",
 		"zombie": "^5.0.5"
 	},
 	"engines": {
