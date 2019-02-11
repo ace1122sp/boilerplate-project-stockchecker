@@ -5,6 +5,7 @@
 	"main": "server.js",
 	"scripts": {
 		"start": "node server.js",
+		"dev-client": "webpack --mode development --hot",
 		"test": "mocha ./tests"
 	},
 	"dependencies": {
