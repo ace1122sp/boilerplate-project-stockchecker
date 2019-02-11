@@ -28,7 +28,7 @@ mongoose.connect(config.db.mongoURI, { useNewUrlParser: true })
     process.exit(1);
   });
 
-app.use('/public', express.static(process.cwd() + '/public'));
+app.use(express.static(process.cwd() + '/public'));
 
 app.use(cors({ origin: '*' })); //For FCC testing purposes only
 app.use(helmet());
