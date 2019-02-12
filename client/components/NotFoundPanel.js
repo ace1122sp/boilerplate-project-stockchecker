@@ -1,8 +1,9 @@
 import React from 'react';
 
-const NotFoundPanel = ({ changeActiveComponent }) => {
+const NotFoundPanel = ({ changeActiveComponent, updateStocks }) => {
   const cancel = () => {
     changeActiveComponent();
+    updateStocks(null);
   }
 
   return (
