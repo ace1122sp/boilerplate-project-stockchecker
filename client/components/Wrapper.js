@@ -1,8 +1,14 @@
 import React from 'react';
+import Main from './Main';
 
 const Wrapper = () => 
-  <header>
-    <h1>Stockpicker</h1>
-  </header>
+    <div>
+      <header>
+        <h1>StockPicker</h1>
+      </header>
+      <main>
+        <Main />
+      </main>
+    </div>
 
 export default Wrapper;

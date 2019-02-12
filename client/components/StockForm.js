@@ -1,13 +1,20 @@
 import React from 'react';
 
-const StockForm = () => {
+const StockForm = ({ changeActiveComponent }) => {
+  const cancel = () => {
+    changeActiveComponent();
+  };
+
   return (
-    <form>
-      <input type='text' placeholder='stock' autoFocus required name='stock' id='stock-input' />
-      <input type='checkbox' id='like-input'/>
-      <label htmlFor='like-input'>like</label>
-      <button>get price</button>
-    </form>
+    <div>
+      <button onClick={cancel}>x</button>
+      <form>
+        <input type='text' placeholder='stock' autoFocus required name='stock' id='stock-input' />
+        <input type='checkbox' id='like-input'/>
+        <label htmlFor='like-input'>like</label>
+        <button>get price</button>
+      </form>
+    </div>
   );
 }
 

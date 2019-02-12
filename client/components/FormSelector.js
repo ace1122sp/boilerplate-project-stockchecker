@@ -1,10 +1,19 @@
 import React from 'react';
+import { STOCK_FORM, COMPARE_FORM } from './constants';
 
-const FormSelector = () => {
+const FormSelector = ({ changeActiveComponent }) => {
+  const getStockForm = () => {
+    changeActiveComponent(STOCK_FORM);
+  };
+
+  const getCompareForm = () => {
+    changeActiveComponent(COMPARE_FORM);
+  };
+
   return (
     <div>
-      <button>find your stock</button>
-      <button>compare two stocks</button>
+      <button onClick={getStockForm}>find your stock</button>
+      <button onClick={getCompareForm}>compare two stocks</button>
     </div>
   );
 }
