@@ -10,21 +10,22 @@ import { COMPARE_FORM, NOT_FOUND_PANEL, STOCK_FORM, STOCK_PANEL } from './consta
 
 const Main = () => {
   const [activeComponent, changeActiveComponent] = useState('Form-Selector');
+  const [stocks, updateStocks] = useState(null);
 
   const active = componentName => {
     let component;
     switch (componentName) {      
       case COMPARE_FORM:
-        component = <CompareForm changeActiveComponent={changeActiveComponent} />;
+        component = <CompareForm changeActiveComponent={changeActiveComponent} updateStocks={updateStocks} />;
         break;
       case NOT_FOUND_PANEL:
-        component = <NotFoundPanel changeActiveComponent={changeActiveComponent} />;
+        component = <NotFoundPanel changeActiveComponent={changeActiveComponent} updateStocks={updateStocks} />;
         break;
       case STOCK_FORM:
-        component = <StockForm changeActiveComponent={changeActiveComponent} />;
+        component = <StockForm changeActiveComponent={changeActiveComponent} updateStocks={updateStocks} />;
         break;
       case STOCK_PANEL:
-        component = <StockPanel changeActiveComponent={changeActiveComponent} />;
+        component = <StockPanel changeActiveComponent={changeActiveComponent} updateStocks={updateStocks} stocks={stocks} />;
         break;
       default:
         component = <FormSelector changeActiveComponent={changeActiveComponent} />;
