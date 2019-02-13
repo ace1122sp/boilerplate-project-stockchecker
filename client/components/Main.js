@@ -10,7 +10,7 @@ import { COMPARE_FORM, NOT_FOUND_PANEL, STOCK_FORM, STOCK_PANEL } from './consta
 
 const Main = () => {
   const [activeComponent, changeActiveComponent] = useState('Form-Selector');
-  const [stocks, updateStocks] = useState(null);
+  const [stocks, updateStocks] = useState([]);
 
   const active = componentName => {
     let component;
