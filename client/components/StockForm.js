@@ -25,13 +25,11 @@ const StockForm = ({ changeActiveComponent, updateStocks }) => {
       .then(res => {
         setLoadingStatus(false);        
         updateStocks([res.stockData[0]]);
-        if (res) {
-          changeActiveComponent(STOCK_PANEL);          
-        } else {
-          changeActiveComponent(NOT_FOUND_PANEL);
-        }
+
+        const panelToRender = res ? STOCK_PANEL : NOT_FOUND_PANEL;
+        changeActiveComponent(panelToRender);          
       })
-      .catch(err => {}) // to handle
+      .catch(err => {}); // to handle
   };
 
   const loadingSpan = <span>loading...</span>;
