@@ -1,17 +1,24 @@
 import React from 'react';
 
-const StockPanel = ({ stock, changeActiveComponent }) => {
+const Panel = ({ stock }) => 
+  <div>
+    <h2>{stock.symbol}</h2>
+    <p>{stock.name}</p>
+    <p>{stock.price}</p>
+    <p>{stock.likes}</p>
+    <label>likes</label>
+  </div>
+
+const StockPanel = ({ stocks, changeActiveComponent }) => {
   const cancel = () => {
     changeActiveComponent();
   }
+
+  const panels = stocks.map(stock => <Panel key={1} stock={stock} />);
   return (
     <div>
       <button onClick={cancel}>x</button>
-      <h2>{stock.symbol}</h2>
-      <p>{stock.name}</p>
-      <p>{stock.price}</p>
-      <p>{stock.likes}</p>
-      <label>likes</label>
+      {panels} 
     </div>
   );
 }
