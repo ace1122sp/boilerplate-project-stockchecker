@@ -5,7 +5,8 @@
 	"main": "server.js",
 	"scripts": {
 		"start": "node server.js",
-		"dev-client": "webpack --mode development --hot",
+		"get-client-bundle": "webpack --mode development --hot",
+		"dev-client": "webpack --mode development --watch",
 		"test": "mocha ./tests"
 	},
 	"dependencies": {
