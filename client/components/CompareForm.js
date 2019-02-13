@@ -31,7 +31,9 @@ const CompareForm = ({ changeActiveComponent, updateStocks }) => {
         const panelToRender = res.stockData[0].symbol ? STOCK_PANEL : NOT_FOUND_PANEL;
         changeActiveComponent(panelToRender);
       })
-      .catch(err => {}); // to handle
+      .catch(err => {
+        changeActiveComponent(ERROR_PANEL);
+      });
   }
 
   const loadingSpan = <span>loading...</span>

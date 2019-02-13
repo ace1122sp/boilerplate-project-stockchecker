@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { apiUrl } from '../urls';
-import { STOCK_PANEL, NOT_FOUND_PANEL } from './constants';
+import { STOCK_PANEL, NOT_FOUND_PANEL, ERROR_PANEL } from './constants';
 
 const StockForm = ({ changeActiveComponent, updateStocks }) => {
   const [loading, setLoadingStatus] = useState(false);
@@ -30,7 +30,9 @@ const StockForm = ({ changeActiveComponent, updateStocks }) => {
 
         changeActiveComponent(panelToRender);          
       })
-      .catch(err => {}); // to handle
+      .catch(err => {
+        changeActiveComponent(ERROR_PANEL);
+      });
   };
 
   const loadingSpan = <span>loading...</span>;

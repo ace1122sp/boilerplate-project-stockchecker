@@ -6,7 +6,8 @@ import FormSelector from './FormSelector';
 import NotFoundPanel from './NotFoundPanel';
 import StockForm from './StockForm';
 import StockPanel from './StockPanel';
-import { COMPARE_FORM, NOT_FOUND_PANEL, STOCK_FORM, STOCK_PANEL } from './constants';
+import ErrorPanel from './ErrorPanel';
+import { COMPARE_FORM, NOT_FOUND_PANEL, STOCK_FORM, STOCK_PANEL, ERROR_PANEL } from './constants';
 
 const Main = () => {
   const [activeComponent, changeActiveComponent] = useState('Form-Selector');
@@ -26,6 +27,9 @@ const Main = () => {
         break;
       case STOCK_PANEL:
         component = <StockPanel changeActiveComponent={changeActiveComponent} updateStocks={updateStocks} stocks={stocks} />;
+        break;
+      case ERROR_PANEL:
+        component = <ErrorPanel changeActiveComponent={changeActiveComponent} />;
         break;
       default:
         component = <FormSelector changeActiveComponent={changeActiveComponent} />;
