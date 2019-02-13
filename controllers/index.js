@@ -19,6 +19,7 @@ const _oldPrice = date => {
 const _fetchNewStock = symbol => {
   return searchStock(symbol)
     .then(data => {      
+      if (data.message && data.message === 'not found') return data;
       return Stock.findOne({ symbol: data.data.symbol })
         .then(stock => {
           if (!stock) return new Stock(data.data);
@@ -46,7 +47,7 @@ const _findUpdatedStock = (symbol, voterIp, liked = false) => {
         }
       })
       .then(stock => {
-        if (!liked) return stock;
+        if (!liked || (stock.message && stock.message === 'not found')) return stock;
         return checkIfVoted(voterIp)
           .then(voted => {
             if (voted) return stock;
@@ -55,6 +56,7 @@ const _findUpdatedStock = (symbol, voterIp, liked = false) => {
           })
       })
       .then(stock => {
+        if (stock.message && stock.message === 'not found') return stock; 
         return stock.save();
       })
       .catch(err => {
@@ -119,6 +121,7 @@ const getStock = (req, res, next) => {
             res.json({ stockData: [...cleanedStocks] });
           })
           .catch(err => {
+            console.log(err);
             next(err);
           });
       } else {
