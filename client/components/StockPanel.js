@@ -14,7 +14,7 @@ const StockPanel = ({ stocks, changeActiveComponent }) => {
     changeActiveComponent();
   }
 
-  const panels = stocks.map(stock => <Panel key={1} stock={stock} />);
+  const panels = stocks.map((stock, i) => <Panel key={i} stock={stock} />);
   return (
     <div>
       <button onClick={cancel}>x</button>
