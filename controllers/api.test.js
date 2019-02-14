@@ -16,7 +16,7 @@ module.exports = () => {
         const symbolToTest = 'BA';
         const expected = {
           message: 'found',
-          status: 'ok',
+          code: 200,
           data: {
             name: 'The Boeing Company',
             symbol: 'BA',
@@ -30,7 +30,7 @@ module.exports = () => {
             // assert 
             assert.hasAllKeys(res, Object.keys(expected), 'keys do not match');
             assert.propertyVal(res, 'message', expected.message);
-            assert.propertyVal(res, 'status', expected.status);
+            assert.propertyVal(res, 'code', expected.code);
             assert.propertyVal(res.data, 'name', expected.data.name);
             assert.propertyVal(res.data, 'symbol', expected.data.symbol);
             assert.propertyVal(res.data, 'currency', expected.data.currency);
@@ -42,7 +42,7 @@ module.exports = () => {
       test('valid symbol provided', () => {
         // arrange
         const symbolToTest = 'GOOG';
-        const expectedKeys = ['message', 'status', 'data'];
+        const expectedKeys = ['message', 'code', 'data'];
 
         // act 
         return getLatestPrice(symbolToTest)

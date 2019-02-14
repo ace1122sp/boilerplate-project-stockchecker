@@ -18,8 +18,10 @@ const _oldPrice = date => {
 // returns Stock instance which does not exist in db yet
 const _fetchNewStock = symbol => {
   return searchStock(symbol)
-    .then(data => {      
-      if (data.message && data.message === 'not found') return data;
+    .then(data => {     
+      console.log(data) ;
+      // if (data.message && data.message === 'not found') return data;
+      if (data.code === 404) return data
       return Stock.findOne({ symbol: data.data.symbol })
         .then(stock => {
           if (!stock) return new Stock(data.data);
@@ -36,7 +38,7 @@ const _findUpdatedStock = (symbol, voterIp, liked = false) => {
         if (!stock) return _fetchNewStock(symbol);      
         return stock;
       })
-      .then(stock => {    
+      .then(stock => {   
         if (_oldPrice(stock.date)) {
           return getLatestPrice(stock.symbol)
             .then(res => {
@@ -47,7 +49,8 @@ const _findUpdatedStock = (symbol, voterIp, liked = false) => {
         }
       })
       .then(stock => {
-        if (!liked || (stock.message && stock.message === 'not found')) return stock;
+        // if (!liked || (stock.message && stock.message === 'not found')) return stock;
+        if (!liked || stock.code === 404) return stock;
         return checkIfVoted(voterIp)
           .then(voted => {
             if (voted) return stock;
@@ -56,7 +59,8 @@ const _findUpdatedStock = (symbol, voterIp, liked = false) => {
           })
       })
       .then(stock => {
-        if (stock.message && stock.message === 'not found') return stock; 
+        // if (stock.message && stock.message === 'not found') return stock; 
+        if (stock.code === 404) return stock;
         return stock.save();
       })
       .catch(err => {

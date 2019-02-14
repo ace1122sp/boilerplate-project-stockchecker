@@ -6,12 +6,12 @@ const searchStock = symbol => {
   
   return axios(url)
     .then(res => res.data.bestMatches[0] || null)
-    .then(stock => {
-      if (!stock) return { message: 'not found', status: 'na' };
+    .then(stock => {    
+      if (!stock) return { message: 'not found', code: 404 };
       
       return { 
         message: 'found', 
-        status: 'ok', 
+        code: 200, 
         data: { 
           name: stock['2. name'],
           symbol: stock['1. symbol'],
@@ -30,10 +30,10 @@ const getLatestPrice = symbol => {
   return axios(url)
     .then(res => res.data['Global Quote'] || null)
     .then(stock => {
-      if (!stock) return { message: 'not found', status: 'na' };
+      if (!stock) return { message: 'not found', code: 404 };
       return {
         message: 'found',
-        status: 'ok',
+        code: 200,
         data: {
           symbol: stock['01. symbol'],
           price: stock['05. price']
