@@ -1,6 +1,8 @@
 import React from 'react';
 import Main from './Main';
 
+import '../css/Wrapper.scss';
+
 const Wrapper = () => 
     <div>
       <header>
