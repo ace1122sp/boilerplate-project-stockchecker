@@ -1,1 +1,7 @@
 @import 'base';
+
+header {
+  background: $primary-color;
+  padding: $space-large 0 $space-large $space;
+  font-size: 2.2em;
+}

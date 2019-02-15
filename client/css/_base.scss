@@ -6,8 +6,32 @@ html, body {
   min-height: 100vh;
 }
 
+#root, #root > div {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
 body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   background: $primary-color-dark;
   color: $on-primary-color;
   font-family: Helvetica, sans-serif;
 }
+
+main {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  margin: 0;
+  justify-content: center;
+  align-items: center;
+}
+
+button {
+  cursor: pointer;
+}
+
+@import 'common-classes';

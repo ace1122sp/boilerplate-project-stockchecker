@@ -3,3 +3,23 @@ $primary-color: #424242;
 $primary-color-light: #6d6d6d;
 $primary-color-dark: #1b1b1b;
 $on-primary-color: #fafafa;
+$shadow-color: $primary-color-light;
+$error-color: #ef5350;
+
+// sizes
+$space-small: 5px;
+$space: 12px;
+$space-large: 25px;
+
+$border-xs: 1.5px;
+$border-large: 30px;
+$h1-size: 2rem;
+$h2-size: 1.5rem;
+$h3-size: 1.3rem;
+$radius: 4px;
+$radius-large: 40px;
+
+// shorthand
+$box-shadow: 1px 1px 5px 1px $shadow-color;
+$box-shadow-footer: 0px -1px 10px 1px $shadow-color;
+$transition-basic: all 100ms ease-in;
