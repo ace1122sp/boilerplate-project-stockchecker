@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import LoadingPanel from './LoadingPanel';
 import { apiUrl } from '../urls';
-import { STOCK_PANEL, NOT_FOUND_PANEL } from './constants';
+import { STOCK_PANEL, NOT_FOUND_PANEL, ERROR_PANEL } from './constants';
 
 const CompareForm = ({ changeActiveComponent, updateStocks }) => {
   const [loading, setLoadingStatus] = useState(false);
