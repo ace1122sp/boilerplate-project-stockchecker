@@ -39,16 +39,18 @@ const CompareForm = ({ changeActiveComponent, updateStocks }) => {
   const loadingSpan = <span>loading...</span>
 
   return (
-    <div>
+    <div className='wrapper-with-close'>
       {loading && loadingSpan}
-      <button onClick={cancel}>x</button>
-      <form onSubmit={handleRequest}>
+      <button onClick={cancel} className='close-btn'>x</button>
+      <form onSubmit={handleRequest} className='form'>
         <input type='text' placeholder='stock a' autoFocus required name='stockA' id='stock-input-a' />
+        <br />
         <input type='text' placeholder='stock b' required name='stockB' id='stock-input-b' />
+        <br />
         <input type='checkbox' name='like' id='like-input' />
         <label htmlFor='like-input'>like both</label>
         <br />
-        <button>compare</button>
+        <button className='action-btn'>compare</button>
       </form>
     </div>
   );
