@@ -38,14 +38,15 @@ const StockForm = ({ changeActiveComponent, updateStocks }) => {
   const loadingSpan = <span>loading...</span>;
 
   return (
-    <div>
+    <div className='wrapper-with-close'>
       {loading && loadingSpan}
-      <button onClick={cancel}>x</button>
-      <form onSubmit={handleRequest}>
+      <button onClick={cancel} className='close-btn'>x</button>
+      <form onSubmit={handleRequest} className='form'>
         <input type='text' placeholder='stock' autoFocus required name='stock' id='stock-input' />
         <input type='checkbox' name='like' id='like-input'/>
         <label htmlFor='like-input'>like</label>
-        <button>get price</button>
+        <br />
+        <button className='action-btn'>get price</button>
       </form>
     </div>
   );
