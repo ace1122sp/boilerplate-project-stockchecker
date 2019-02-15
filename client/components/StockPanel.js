@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Panel = ({ stock }) => 
-  <div>
+  <div className='div-stock'>
     <h2>{stock.symbol}</h2>
     <p>{stock.name}</p>
     <p>{stock.currency} {stock.price}</p>
@@ -25,9 +25,11 @@ const StockPanel = ({ stocks, changeActiveComponent }) => {
   const panels = modifiedStocks.map((stock, i) => <Panel key={i} stock={stock} />);
 
   return (
-    <div>
-      <button onClick={cancel}>x</button>
-      {panels} 
+    <div className='wrapper-with-close'>
+      <button onClick={cancel} className='close-btn'>x</button>
+      <div className='stock-wrapper'>
+        {panels} 
+      </div>
     </div>
   );
 }
