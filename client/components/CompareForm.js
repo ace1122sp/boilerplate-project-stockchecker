@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import LoadingPanel from './LoadingPanel';
 import { apiUrl } from '../urls';
 import { STOCK_PANEL, NOT_FOUND_PANEL } from './constants';
 
@@ -39,11 +40,9 @@ const CompareForm = ({ changeActiveComponent, updateStocks }) => {
 
   const handleLike = () => {}
 
-  const loadingSpan = <span>loading...</span>
-
   return (
-    <div className='wrapper-with-close'>
-      {loading && loadingSpan}
+    <div className='wrapper-with-close relative-position'>
+      {loading && <LoadingPanel />}
       <button onClick={cancel} className='close-btn'>x</button>
       <form onSubmit={handleRequest} className='form'>
         <input type='text' placeholder='stock a' autoFocus required name='stockA' id='stock-input-a' />
