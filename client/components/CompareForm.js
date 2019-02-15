@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import { apiUrl } from '../urls';
 import { STOCK_PANEL, NOT_FOUND_PANEL } from './constants';
-
 
 const CompareForm = ({ changeActiveComponent, updateStocks }) => {
   const [loading, setLoadingStatus] = useState(false);
@@ -36,6 +37,8 @@ const CompareForm = ({ changeActiveComponent, updateStocks }) => {
       });
   }
 
+  const handleLike = () => {}
+
   const loadingSpan = <span>loading...</span>
 
   return (
@@ -47,8 +50,9 @@ const CompareForm = ({ changeActiveComponent, updateStocks }) => {
         <br />
         <input type='text' placeholder='stock b' required name='stockB' id='stock-input-b' />
         <br />
-        <input type='checkbox' name='like' id='like-input' />
-        <label htmlFor='like-input'>like both</label>
+        <input type='checkbox' name='like' id='like-input' className='checkbox' onChange={handleLike} />
+        <label htmlFor='like-input' id='like-label'><FontAwesomeIcon icon='thumbs-up' className='not-liked'/></label>
+        <br />
         <br />
         <button className='action-btn'>compare</button>
       </form>

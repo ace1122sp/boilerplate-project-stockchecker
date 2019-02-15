@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import { apiUrl } from '../urls';
 import { STOCK_PANEL, NOT_FOUND_PANEL, ERROR_PANEL } from './constants';
 
@@ -35,6 +37,8 @@ const StockForm = ({ changeActiveComponent, updateStocks }) => {
       });
   };
 
+  const handleLike = () => {}
+
   const loadingSpan = <span>loading...</span>;
 
   return (
@@ -43,9 +47,9 @@ const StockForm = ({ changeActiveComponent, updateStocks }) => {
       <button onClick={cancel} className='close-btn'>x</button>
       <form onSubmit={handleRequest} className='form'>
         <input type='text' placeholder='stock' autoFocus required name='stock' id='stock-input' />
+        <input type='checkbox' name='like' id='like-input' className='checkbox' onChange={handleLike} />
+        <label htmlFor='like-input' id='like-label'><FontAwesomeIcon icon='thumbs-up' className='not-liked'/></label>
         <br />
-        <input type='checkbox' name='like' id='like-input'/>
-        <label htmlFor='like-input'>like</label>
         <br />
         <button className='action-btn'>get price</button>
       </form>
