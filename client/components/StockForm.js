@@ -43,6 +43,7 @@ const StockForm = ({ changeActiveComponent, updateStocks }) => {
       <button onClick={cancel} className='close-btn'>x</button>
       <form onSubmit={handleRequest} className='form'>
         <input type='text' placeholder='stock' autoFocus required name='stock' id='stock-input' />
+        <br />
         <input type='checkbox' name='like' id='like-input'/>
         <label htmlFor='like-input'>like</label>
         <br />
