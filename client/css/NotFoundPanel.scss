@@ -1,0 +1,9 @@
+@import 'variables';
+
+.wrapper-with-close > h2 {
+  margin: $space-large;
+  padding: $space-large;
+  margin-bottom: $space-small;
+  font-size: 1.3rem;
+  color: $error-color;
+}
