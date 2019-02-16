@@ -2,9 +2,9 @@ import React from 'react';
 import Main from './Main';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChartLine, faBalanceScale, faThumbsUp, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
+import { faChartLine, faBalanceScale, faThumbsUp, faEyeSlash, faSpinner } from '@fortawesome/free-solid-svg-icons'
 
-library.add(faChartLine, faBalanceScale, faThumbsUp, faEyeSlash);
+library.add(faChartLine, faBalanceScale, faThumbsUp, faEyeSlash, faSpinner);
 
 import '../css/Wrapper.scss';
 
