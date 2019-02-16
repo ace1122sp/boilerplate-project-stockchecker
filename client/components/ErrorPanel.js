@@ -12,7 +12,7 @@ const ErrorPanel = ({ changeActiveComponent }) => {
     <div className='wrapper-with-close'>
       <button onClick={cancel} className='close-btn'>x</button>
       <h2>Snap... Something went wrong!</h2>
-      <FontAwesomeIcon icon='eye-slash' size='2x' />  
+      <FontAwesomeIcon icon='house-damage' size='2x' />  
     </div>
   );
 }
