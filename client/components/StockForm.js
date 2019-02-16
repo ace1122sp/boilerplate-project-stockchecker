@@ -1,21 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import LoadingPanel from './LoadingPanel';
 import { apiUrl } from '../urls';
 import { STOCK_PANEL, NOT_FOUND_PANEL, ERROR_PANEL } from './constants';
 
-const StockForm = ({ changeActiveComponent, updateStocks }) => {
-  const [loading, setLoadingStatus] = useState(false);
-  const [likeClassName, toggleClass] = useState('not-liked');
-
-  const cancel = () => {
-    changeActiveComponent();
-  };
-
+const StockForm = props => {
   const handleRequest = e => {
     e.preventDefault();
-    setLoadingStatus(true);
+    props.setLoadingStatus(true);
     const unsafeStock = e.target.stock.value;
     const like = e.target.like.checked;
     let url = apiUrl + `stock=${unsafeStock}`;
@@ -27,36 +19,27 @@ const StockForm = ({ changeActiveComponent, updateStocks }) => {
         return res.json();
       })
       .then(res => {
-        setLoadingStatus(false);        
-        updateStocks([res.stockData[0]]);
+        props.setLoadingStatus(false);        
+        props.updateStocks([res.stockData[0]]);
 
         const panelToRender = res.stockData[0].symbol ? STOCK_PANEL : NOT_FOUND_PANEL;
 
-        changeActiveComponent(panelToRender);          
+        props.changeActiveComponent(panelToRender);          
       })
       .catch(err => {
-        changeActiveComponent(ERROR_PANEL);
+        props.changeActiveComponent(ERROR_PANEL);
       });
   };
 
-  const handleLike = () => {
-    const classToSet = likeClassName === 'not-liked' ? 'liked' : 'not-liked';
-    toggleClass(classToSet);
-  }
-
   return (
-    <div className='wrapper-with-close relative-position'>      
-      {loading && <LoadingPanel />}
-      <button onClick={cancel} className='close-btn'>x</button>
-      <form onSubmit={handleRequest} className='form'>
-        <input type='text' placeholder='stock' autoFocus required name='stock' id='stock-input' />
-        <input type='checkbox' name='like' id='like-input' className='checkbox' onChange={handleLike} />
-        <label htmlFor='like-input' id='like-label'><FontAwesomeIcon icon='thumbs-up' className={likeClassName} /></label>
-        <br />
-        <br />
-        <button className='action-btn'>get price</button>
-      </form>
-    </div>
+    <form onSubmit={handleRequest} className='form'>
+      <input type='text' placeholder='stock' autoFocus required name='stock' id='stock-input' />
+      <input type='checkbox' name='like' id='like-input' className='checkbox' onChange={props.handleLike} />
+      <label htmlFor='like-input' id='like-label'><FontAwesomeIcon icon='thumbs-up' className={props.likeClassName} /></label>
+      <br />
+      <br />
+      <button className='action-btn'>get price</button>
+    </form>
   );
 }
 

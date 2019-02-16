@@ -1,10 +1,9 @@
   import React, { useState, Fragment } from 'react';
 
 import CompareForm from './CompareForm';
-import FlashMessage from './FlashMessage';
+import FormWrapper from './FormWrapper';
 import FormSelector from './FormSelector';
 import NotFoundPanel from './NotFoundPanel';
-import StockForm from './StockForm';
 import StockPanel from './StockPanel';
 import ErrorPanel from './ErrorPanel';
 import { COMPARE_FORM, NOT_FOUND_PANEL, STOCK_FORM, STOCK_PANEL, ERROR_PANEL } from './constants';
@@ -23,7 +22,8 @@ const Main = () => {
         component = <NotFoundPanel changeActiveComponent={changeActiveComponent} updateStocks={updateStocks} />;
         break;
       case STOCK_FORM:
-        component = <StockForm changeActiveComponent={changeActiveComponent} updateStocks={updateStocks} />;
+        // component = <StockForm changeActiveComponent={changeActiveComponent} updateStocks={updateStocks} />;
+        component = <FormWrapper changeActiveComponent={changeActiveComponent} updateStocks={updateStocks} componentToRender={STOCK_FORM} />;
         break;
       case STOCK_PANEL:
         component = <StockPanel changeActiveComponent={changeActiveComponent} updateStocks={updateStocks} stocks={stocks} />;
