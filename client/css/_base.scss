@@ -17,6 +17,9 @@ body {
   flex-direction: column;
   min-height: 100vh;
   background: $primary-color-dark;
+  background-image: url('https://source.unsplash.com/uJhgEXPqSPk');
+  background-blend-mode: overlay;
+  background-repeat: space;
   color: $on-primary-color;
   font-family: Helvetica, sans-serif;
 }

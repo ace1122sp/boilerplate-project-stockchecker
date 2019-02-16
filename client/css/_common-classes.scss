@@ -10,7 +10,8 @@
   display: flex;
   flex-direction: column;
   margin: auto;
-  background: transparent;
+  background: $primary-color-dark;
+  opacity: .9;
   box-shadow: $box-shadow;
   padding: $space-large;
 }
@@ -43,6 +44,7 @@
 }
 
 .close-btn {
+  @extend .fade-away;
   font-size: 1.3rem;
   width: 40px;
   height: 40px;
@@ -52,12 +54,16 @@
   color: $primary-color-dark;
 }
 
-.action-btn {
+.action-btn {  
   padding: $space-small $space;
   font-size: 1.1rem;
   background-color: $on-primary-color;
   color: $primary-color-dark;
   border-radius: $radius;
+}
+
+.action-btn:active {
+  background-color: $primary-color-light;
 }
 
 .checkbox {
@@ -72,6 +78,22 @@
 
 .liked {
   color: $liked-color;
+  transition: all 200ms ease-in;
+  animation: like 200ms ease-in;
+}
+
+@keyframes like {
+  0% {
+    transform: scale(1);
+  }
+  
+  50% {
+    transform: scale(0.7);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 .form {
@@ -109,4 +131,17 @@
 
 .fa-eye-slash {
   align-self: center;
+}
+
+.fade-away {
+  transition: all 200ms ease-out;
+}
+
+.fade-away:active {
+  opacity: 0;
+  transform: scale(0.65);
+}
+
+#like-label {
+  cursor: pointer;
 }
