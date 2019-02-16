@@ -7,6 +7,7 @@ import { STOCK_PANEL, NOT_FOUND_PANEL, ERROR_PANEL } from './constants';
 
 const StockForm = ({ changeActiveComponent, updateStocks }) => {
   const [loading, setLoadingStatus] = useState(false);
+  const [likeClassName, toggleClass] = useState('not-liked');
 
   const cancel = () => {
     changeActiveComponent();
@@ -38,7 +39,10 @@ const StockForm = ({ changeActiveComponent, updateStocks }) => {
       });
   };
 
-  const handleLike = () => {}
+  const handleLike = () => {
+    const classToSet = likeClassName === 'not-liked' ? 'liked' : 'not-liked';
+    toggleClass(classToSet);
+  }
 
   return (
     <div className='wrapper-with-close relative-position'>      
@@ -47,7 +51,7 @@ const StockForm = ({ changeActiveComponent, updateStocks }) => {
       <form onSubmit={handleRequest} className='form'>
         <input type='text' placeholder='stock' autoFocus required name='stock' id='stock-input' />
         <input type='checkbox' name='like' id='like-input' className='checkbox' onChange={handleLike} />
-        <label htmlFor='like-input' id='like-label'><FontAwesomeIcon icon='thumbs-up' className='not-liked'/></label>
+        <label htmlFor='like-input' id='like-label'><FontAwesomeIcon icon='thumbs-up' className={likeClassName} /></label>
         <br />
         <br />
         <button className='action-btn'>get price</button>
