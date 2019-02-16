@@ -1,8 +1,8 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { apiUrl } from '../urls';
-import { STOCK_PANEL, NOT_FOUND_PANEL, ERROR_PANEL } from './constants';
+import { apiUrl } from '../../urls';
+import { STOCK_PANEL, NOT_FOUND_PANEL, ERROR_PANEL } from '../constants';
 
 const CompareForm = props => {
   const handleRequest = e => {

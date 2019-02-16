@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-import StockForm from './StockForm';
-import CompareForm from './CompareForm';
+import StockForm from './forms/StockForm';
+import CompareForm from './forms/CompareForm';
 import { STOCK_FORM, COMPARE_FORM } from './constants';
 import LoadingPanel from './LoadingPanel';
 

@@ -1,6 +1,5 @@
-  import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment } from 'react';
 
-import CompareForm from './CompareForm';
 import FormWrapper from './FormWrapper';
 import FormSelector from './FormSelector';
 import NotFoundPanel from './NotFoundPanel';
