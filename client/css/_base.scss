@@ -19,7 +19,8 @@ body {
   background: $primary-color-dark;
   background-image: url('https://source.unsplash.com/uJhgEXPqSPk');
   background-blend-mode: overlay;
-  background-repeat: space;
+  background-repeat: no-repeat;
+  background-size: cover;
   color: $on-primary-color;
   font-family: Helvetica, sans-serif;
 }
