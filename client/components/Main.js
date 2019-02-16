@@ -16,13 +16,12 @@ const Main = () => {
     let component;
     switch (componentName) {      
       case COMPARE_FORM:
-        component = <CompareForm changeActiveComponent={changeActiveComponent} updateStocks={updateStocks} />;
+        component = <FormWrapper changeActiveComponent={changeActiveComponent} updateStocks={updateStocks} componentToRender={COMPARE_FORM} />;
         break;
       case NOT_FOUND_PANEL:
         component = <NotFoundPanel changeActiveComponent={changeActiveComponent} updateStocks={updateStocks} />;
         break;
       case STOCK_FORM:
-        // component = <StockForm changeActiveComponent={changeActiveComponent} updateStocks={updateStocks} />;
         component = <FormWrapper changeActiveComponent={changeActiveComponent} updateStocks={updateStocks} componentToRender={STOCK_FORM} />;
         break;
       case STOCK_PANEL:

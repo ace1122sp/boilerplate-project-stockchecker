@@ -22,7 +22,7 @@ const FormWrapper = ({ changeActiveComponent, updateStocks, componentToRender })
     if (componentToRender === STOCK_FORM) {
       return <StockForm handleLike={handleLike} likeClassName={likeClassName} changeActiveComponent={changeActiveComponent} updateStocks={updateStocks} setLoadingStatus={setLoadingStatus}  />;
     } else if (componentToRender === COMPARE_FORM) {
-      return null;
+      return <CompareForm handleLike={handleLike} likeClassName={likeClassName} changeActiveComponent={changeActiveComponent} updateStocks={updateStocks} setLoadingStatus={setLoadingStatus}  />;;
     } else {
       return null
     }
