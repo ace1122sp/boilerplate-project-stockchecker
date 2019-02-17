@@ -283,7 +283,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var reac
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"apiUrl\", function() { return apiUrl; });\nvar PROXY = 'http://localhost:3000'; // this can't be hardcoded\n\nvar apiUrl = PROXY + '/api/stock-prices?';\n\n//# sourceURL=webpack:///./client/urls.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"apiUrl\", function() { return apiUrl; });\nvar apiUrl = '/api/stock-prices?';\n\n//# sourceURL=webpack:///./client/urls.js?");
 
 /***/ }),
 
