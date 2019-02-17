@@ -11,7 +11,7 @@ import '../css/Wrapper.scss';
 const Wrapper = () => 
     <div>
       <header>
-        <h1>StockPicker</h1>
+        <h1>Stockçhecker</h1>
       </header>
       <main>
         <Main />
