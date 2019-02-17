@@ -3,6 +3,8 @@
 .form-selector {
   width: 20vw;
   height: 20vw;
+  min-width: 107px;
+  min-height: 107px;
   margin: $space-large;
   background: $primary-color-dark;
   color: $primary-color-light;

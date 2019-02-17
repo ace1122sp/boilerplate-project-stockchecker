@@ -1,0 +1,27 @@
+@import 'variables';
+
+@media (max-width: 460px) {
+  .wrapper-with-close {
+    margin: $space-large;    // added for compare view
+    padding: $space-large $space; //1. version
+  }
+
+  .action-btn {
+    font-size: 1rem;
+  }
+
+  .close-btn {
+    width: 30px;
+    height: 30px;
+  }
+
+  .form {
+    input {
+      font-size: 1rem;
+    }
+  }
+
+  .div-stock {
+    padding: $space-small;
+  }
+}
