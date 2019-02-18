@@ -4,16 +4,7 @@ const { validationResult } = require('express-validator/check');
 const Stock = require('../models/stock');
 const { getLatestPrice, searchStock } = require('./api');
 const { checkIfVoted, addVoter } = require('./voters');
-
-const _oldPrice = date => {
-  const maxAge = 1000 * 60 * 60 * 24;
-  const activeDate = parseInt(date);
-  const now = Date.now();
-
-  const currentAge = now - activeDate;
-  const isOld = currentAge > maxAge ? true : false;
-  return isOld;
-}
+const { wrapIntoArray, oldPrice } = require('./helpers');
 
 // returns Stock instance which does not exist in db yet
 const _fetchNewStock = symbol => {
@@ -37,7 +28,7 @@ const _findUpdatedStock = (symbol, voterIp, liked = false) => {
         return stock;
       })
       .then(stock => {   
-        if (_oldPrice(stock.date)) {
+        if (oldPrice(stock.date)) {
           return getLatestPrice(stock.symbol)
             .then(res => {
               return stock.updatePrice(parseFloat(res.data.price))
@@ -64,19 +55,6 @@ const _findUpdatedStock = (symbol, voterIp, liked = false) => {
       });
 }
 
-const _wrapIntoArray = arg => {
-  let queries = [];
-  
-  if (!arg) return [];
-  if (typeof arg === 'string') {
-    queries.push(arg);
-  } else {
-    queries = [arg[0], arg[1]];
-  }
-
-  return queries;
-}
-
 const sanitizeAndValidateQueries = [
   sanitizeQuery('stock')
     .trim()
@@ -91,7 +69,7 @@ const getStock = (req, res, next) => {
     return res.status(422).json({ errors: errors.array() });
   }
   
-  req.query.stock = _wrapIntoArray(req.query.stock);  
+  req.query.stock = wrapIntoArray(req.query.stock);  
   
   if (!req.query.stock.length) return next(); 
 
@@ -137,11 +115,9 @@ const handleNoQueryStock = (req, res) => {
   res.sendStatus(400);
 }
 
-module.exports = {
-  _oldPrice,
+module.exports = {  
   _fetchNewStock,
   _findUpdatedStock,
-  _wrapIntoArray,
   sanitizeAndValidateQueries,
   getStock,
   handleNoQueryStock

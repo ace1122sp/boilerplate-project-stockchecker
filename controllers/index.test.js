@@ -4,7 +4,8 @@ require('dotenv').config(); // figure out if possible to use root .env
 
 const chai = require('chai');
 const { suite, test, suiteTeardown } = require('mocha');
-const { _oldPrice, _fetchNewStock, _findUpdatedStock, _wrapIntoArray } = require('./index');
+const { _fetchNewStock, _findUpdatedStock } = require('./index');
+const { wrapIntoArray, oldPrice } = require('./helpers');
 
 const assert = chai.assert;
 
@@ -13,13 +14,13 @@ module.exports = () => {
     // arrange global
     const expectedKeys = ['name', 'price', 'symbol', 'date', 'currency', 'likes'];
 
-    suite('_oldPrice()', () => {
+    suite('oldPrice()', () => {
       test('old date', done => {
         // arrange
         const oldDate = '1000';
 
         // act 
-        const actual = _oldPrice(oldDate);
+        const actual = oldPrice(oldDate);
 
         // assert
         assert.isTrue(actual);
@@ -32,7 +33,7 @@ module.exports = () => {
         const validDate = JSON.stringify(parseInt(Date.now()) - 1000 * 60 * 60 * 5);
 
         // act 
-        const actual = _oldPrice(validDate);
+        const actual = oldPrice(validDate);
 
         // assert
         assert.isFalse(actual);
@@ -112,14 +113,14 @@ module.exports = () => {
       });
     });
 
-    suite('_wrapIntoArray(arg)', () => {
+    suite('wrapIntoArray(arg)', () => {
       test('string', done => {
         // arrange 
         const testString = 'google';
         const expectedLength = 1;
 
         // act 
-        const actual = _wrapIntoArray(testString);
+        const actual = wrapIntoArray(testString);
         const actualAtZero = actual[0];
 
         // assert
@@ -135,7 +136,7 @@ module.exports = () => {
         const expectedLength = 2;
 
         // act
-        const actual = _wrapIntoArray(testArray);
+        const actual = wrapIntoArray(testArray);
 
         // assert
         assert.isArray(actual);
@@ -149,7 +150,7 @@ module.exports = () => {
         const expectedLength = 0;
 
         // act
-        const actual = _wrapIntoArray(testString);
+        const actual = wrapIntoArray(testString);
 
         // assert
         assert.isArray(actual);
