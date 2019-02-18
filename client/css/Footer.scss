@@ -1,0 +1,28 @@
+@import 'variables';
+
+address {
+  font-style: normal;
+  font-weight: 600;
+  color: $primary-color-dark;
+  margin-top: $space-small !important;
+}
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  padding: $space-small;
+  opacity: .2;
+  background-color: $primary-color;
+  box-shadow: $box-shadow-footer;
+}
+
+.social-media {
+  display: inherit;
+  margin: $space-small $space 0;  
+
+  li {
+    margin: 0 $space-small;
+  }
+}
