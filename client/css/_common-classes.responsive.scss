@@ -1,9 +1,9 @@
 @import 'variables';
 
-@media (max-width: 460px) {
+@media (max-width: 820px) {
   .wrapper-with-close {
-    margin: $space-large;    // added for compare view
-    padding: $space-large $space; //1. version
+    margin: $space-large;    
+    padding: $space-large $space;
   }
 
   .action-btn {
