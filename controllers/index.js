@@ -21,7 +21,7 @@ const _fetchNewStock = symbol => {
       throw err;
     });
 }
-const _findUpdatedStock = (symbol, voterIp, liked = false) => {    
+const _findUpdatedStock = (symbol, shouldLike = false) => {    
     return Stock.findOne({ symbol })
       .then(stock => {        
         if (!stock) return _fetchNewStock(symbol);      
@@ -38,13 +38,8 @@ const _findUpdatedStock = (symbol, voterIp, liked = false) => {
         }
       })
       .then(stock => {
-        if (!liked || stock.code === 404) return stock;
-        return checkIfVoted(voterIp)
-          .then(voted => {
-            if (voted) return stock;
-            stock.increaseLikes();
-            return stock;
-          })
+        if (shouldLike && stock.code !== 404) stock.increaseLikes();
+        return stock;
       })
       .then(stock => {        
         if (stock.code === 404) return stock;
@@ -63,19 +58,37 @@ const sanitizeAndValidateQueries = [
     .toBoolean()
 ];
 
+const setLikePermission = (req, res, next) => {
+  if (!req.query.like) {
+    res.locals.shouldLike = false;
+    next();
+  } else {
+    checkIfVoted(req.ip)
+      .then(voted => {
+        res.locals.shouldLike = !voted;
+        next();
+      })
+      .catch(err => {
+        throw err;
+      });
+  }
+}
+
 const getStock = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).json({ errors: errors.array() });
   }
-  
+
   req.query.stock = wrapIntoArray(req.query.stock);  
   
   if (!req.query.stock.length) return next(); 
 
+  shouldLike = res.locals.shouldLike;
+
   res.locals.stocks = [];
   req.query.stock.forEach(symbol => {    
-    res.locals.stocks.push(_findUpdatedStock(symbol, req.ip, req.query.like));    
+    res.locals.stocks.push(_findUpdatedStock(symbol, shouldLike));    
   });  
   
   Promise.all(res.locals.stocks)  
@@ -93,7 +106,7 @@ const getStock = (req, res, next) => {
         };
       });
 
-      if (req.query.like) {
+      if (shouldLike) {
         addVoter(req.ip)
           .then(() => {
             res.json({ stockData: [...cleanedStocks] });
@@ -119,6 +132,7 @@ module.exports = {
   _fetchNewStock,
   _findUpdatedStock,
   sanitizeAndValidateQueries,
+  setLikePermission,
   getStock,
   handleNoQueryStock
 }
