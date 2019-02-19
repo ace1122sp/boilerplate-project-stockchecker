@@ -31,7 +31,8 @@ const _findUpdatedStock = (symbol, shouldLike = false) => {
         if (oldPrice(stock.date)) {
           return getLatestPrice(stock.symbol)
             .then(res => {
-              return stock.updatePrice(parseFloat(res.data.price))
+              if (res.code === 404) return res;
+              return stock.updatePrice(parseFloat(res.data.price));
             })          
         } else {
           return stock;
@@ -46,6 +47,7 @@ const _findUpdatedStock = (symbol, shouldLike = false) => {
         return stock.save();
       })
       .catch(err => {
+        console.error(err)
         throw err;
       });
 }
@@ -94,7 +96,7 @@ const getStock = (req, res, next) => {
   Promise.all(res.locals.stocks)  
     .then(stocks => {
       let cleanedStocks = stocks.map(stock => {
-        if (!stock) return { message: 'not found', code: 404 };
+        if (!stock.symbol) return { message: 'not found', code: 404 };
 
         return {
           name: stock.name,
@@ -105,14 +107,13 @@ const getStock = (req, res, next) => {
           date: stock.date
         };
       });
-
+      
       if (shouldLike) {
         addVoter(req.ip)
           .then(() => {
             res.json({ stockData: [...cleanedStocks] });
           })
           .catch(err => {
-            console.log(err);
             next(err);
           });
       } else {
