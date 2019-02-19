@@ -8,7 +8,7 @@ module.exports = (() => {
   };
 
   const handleApi = err => {
-    return { message: 'server error', status: 'error' };
+    return { message: 'server error', code: 500 };
   };
 
   const handleVoters = _handle;

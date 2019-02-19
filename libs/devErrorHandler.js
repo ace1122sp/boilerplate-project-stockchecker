@@ -11,7 +11,7 @@ module.exports = (() => {
   const handleApi = err => {
     console.error(err);
     if (err.message === 'Cannot read property \'0\' of undefined') return { message: 'Bad user input', code: 404 };
-    return { message: err.message, status: 'server error' };
+    return { message: err.message, code: 500 };
   };
 
   const logErrors = (err, req, res, next) => {
