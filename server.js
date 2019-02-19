@@ -28,20 +28,28 @@ mongoose.connect(config.db.mongoURI, { useNewUrlParser: true })
     process.exit(1);
   });
 
-app.use(express.static(process.cwd() + '/public'));
-
 app.use(cors({ origin: '*' })); //For FCC testing purposes only
 app.use(helmet());
 app.use((req, res, next) => {
-  res.set({
-    // 'Content-Security-Policy': "default-src 'self'"
-  });
+  // res.set({
+  //   'Content-Security-Policy': "default-src 'self'"
+  // });
 
   next();
 });
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('dev'));
+
+// serve gziped static files
+app.get('*.js', function (req, res, next) {
+  req.url = req.url + '.gz';
+  res.set('Content-Encoding', 'gzip');
+  res.set('Content-Type', 'text/javascript');
+  next();
+});
+
+app.use(express.static(process.cwd() + '/public'));
 
 // test route
 app.get('/testside', (req, res) => {
