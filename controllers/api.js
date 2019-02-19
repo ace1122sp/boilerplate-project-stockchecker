@@ -1,6 +1,9 @@
 const axios = require('axios');
 const errorHandler = process.env.NODE_ENV === 'PRODUCTION' ? require('../libs/prodErrorHandler') : require('../libs/devErrorHandler');
 
+// set default timeout
+axios.defaults.timeout = 5000;
+
 const searchStock = symbol => {
   const url = `${process.env.STOCK_API_BASE_URL}/query?function=SYMBOL_SEARCH&keywords=${symbol}&apikey=${process.env.STOCK_API_KEY}`;
   
@@ -8,7 +11,6 @@ const searchStock = symbol => {
     .then(res => res.data.bestMatches[0] || null)
     .then(stock => {    
       if (!stock) return { message: 'not found', code: 404 };
-      
       return { 
         message: 'found', 
         code: 200, 
@@ -22,7 +24,7 @@ const searchStock = symbol => {
     .catch(err => {
       return errorHandler.handleApi(err);
     });
-}
+};
 
 const getLatestPrice = symbol => {
   const url = `${process.env.STOCK_API_BASE_URL}/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${process.env.STOCK_API_KEY}`;  
@@ -43,9 +45,9 @@ const getLatestPrice = symbol => {
     .catch(err => {
       return errorHandler.handleApi(err);
     });
-}
+};
 
 module.exports = {
   getLatestPrice,
   searchStock
-}
+};
