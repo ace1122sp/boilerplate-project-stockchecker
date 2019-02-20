@@ -20,6 +20,7 @@ module.exports = (() => {
   };
 
   const handleClientResponse = (err, req, res, next) => {
+    console.log(err);
     res.sendStatus(500);      
   };
 
