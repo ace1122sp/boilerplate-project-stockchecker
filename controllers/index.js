@@ -24,8 +24,11 @@ const _fetchNewStock = symbol => {
 const _findUpdatedStock = (symbol, shouldLike = false) => {    
     return Stock.findOne({ symbol })
       .then(stock => {        
-        if (!stock) return _fetchNewStock(symbol);      
-        return stock;
+        if (!stock) {
+          return _fetchNewStock(symbol);
+        } else {
+          return stock;
+        }
       })
       .then(stock => {   
         if (oldPrice(stock.date)) {
@@ -47,7 +50,6 @@ const _findUpdatedStock = (symbol, shouldLike = false) => {
         return stock.save();
       })
       .catch(err => {
-        console.error(err)
         throw err;
       });
 }

@@ -2,7 +2,7 @@ const axios = require('axios');
 const errorHandler = process.env.NODE_ENV === 'PRODUCTION' ? require('../libs/prodErrorHandler') : require('../libs/devErrorHandler');
 
 // set default timeout
-axios.defaults.timeout = 5000;
+axios.defaults.timeout = 15000;
 
 const searchStock = symbol => {
   const url = `${process.env.STOCK_API_BASE_URL}/query?function=SYMBOL_SEARCH&keywords=${symbol}&apikey=${process.env.STOCK_API_KEY}`;
@@ -10,17 +10,23 @@ const searchStock = symbol => {
   return axios(url)
     .then(res => res.data.bestMatches[0] || null)
     .then(stock => {
-      console.log(stock);
-      if (!stock['1. symbol']) return { message: 'not found', code: 404 };
-      return { 
-        message: 'found', 
-        code: 200, 
-        data: { 
-          name: stock['2. name'],
-          symbol: stock['1. symbol'],
-          currency: stock['8. currency']
-        } 
+      let apiResponse;
+      if (!stock['1. symbol']) {
+        apiResponse = { message: 'not found', code: 404 };
+      } else {
+        apiResponse = { 
+          message: 'found', 
+          code: 200, 
+          data: { 
+            name: stock['2. name'],
+            symbol: stock['1. symbol'],
+            currency: stock['8. currency']
+          } 
+        };
       }
+
+      console.log('api response from searchStock(): ', apiResponse);
+      return apiResponse;
     })
     .catch(err => {
       return errorHandler.handleApi(err);
@@ -33,16 +39,22 @@ const getLatestPrice = symbol => {
   return axios(url)
     .then(res => res.data['Global Quote'] || null)
     .then(stock => {
-      console.log(stock);
-      if (!stock['1. symbol']) return { message: 'not found', code: 404 };
-      return {
-        message: 'found',
-        code: 200,
-        data: {
-          symbol: stock['01. symbol'],
-          price: stock['05. price']
+      let apiResponse;
+      if (!stock['01. symbol']) {
+        apiResponse = { message: 'not found', code: 404 };
+      } else {
+        apiResponse = {
+          message: 'found',
+          code: 200,
+          data: {
+            symbol: stock['01. symbol'],
+            price: stock['05. price']
+          }
         }
       }
+      
+      console.log('response from getLatestPrice: ', apiResponse);
+      return apiResponse;
     })    
     .catch(err => {
       return errorHandler.handleApi(err);
