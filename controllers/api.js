@@ -8,10 +8,15 @@ const searchStock = symbol => {
   const url = `${process.env.STOCK_API_BASE_URL}/query?function=SYMBOL_SEARCH&keywords=${symbol}&apikey=${process.env.STOCK_API_KEY}`;
   
   return axios(url)
-    .then(res => res.data.bestMatches[0] || null)
+    .then(res => {
+      if (res.data['Note']) {
+        throw new Error('api overflow');
+      }
+      return res.data.bestMatches[0] || null;
+    })
     .then(stock => {
       let apiResponse;
-      if (!stock['1. symbol']) {
+      if (!stock) {
         apiResponse = { message: 'not found', code: 404 };
       } else {
         apiResponse = { 
@@ -25,7 +30,6 @@ const searchStock = symbol => {
         };
       }
 
-      console.log('api response from searchStock(): ', apiResponse);
       return apiResponse;
     })
     .catch(err => {
@@ -35,12 +39,17 @@ const searchStock = symbol => {
 
 const getLatestPrice = symbol => {
   const url = `${process.env.STOCK_API_BASE_URL}/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${process.env.STOCK_API_KEY}`;  
-
   return axios(url)
-    .then(res => res.data['Global Quote'] || null)
+    .then(res => {
+      if (res.data['Note']) {
+        throw new Error('api overflow');
+      }
+      
+      return res.data['Global Quote'] || null;
+    })
     .then(stock => {
       let apiResponse;
-      if (!stock['01. symbol']) {
+      if (!stock) {
         apiResponse = { message: 'not found', code: 404 };
       } else {
         apiResponse = {
@@ -53,7 +62,6 @@ const getLatestPrice = symbol => {
         }
       }
       
-      console.log('response from getLatestPrice: ', apiResponse);
       return apiResponse;
     })    
     .catch(err => {
