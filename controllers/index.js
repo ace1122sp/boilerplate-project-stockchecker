@@ -6,6 +6,15 @@ const { getLatestPrice, searchStock } = require('./api');
 const { checkIfVoted, addVoter } = require('./voters');
 const { wrapIntoArray, oldPrice } = require('./helpers');
 
+// extract ip
+const extractIp = (req, res, next) => {
+  const regexLanguageAndIPAddress = /.*?(?=,)/;
+
+  const ipAddress = JSON.stringify(regexLanguageAndIPAddress.exec(req.headers['x-forwarded-for'])).slice(2, -2);
+  res.locals.ip = ipAddress;
+  next();
+}
+
 // returns Stock instance which does not exist in db yet
 const _fetchNewStock = symbol => {
   return searchStock(symbol)
@@ -67,7 +76,8 @@ const setLikePermission = (req, res, next) => {
     res.locals.shouldLike = false;
     next();
   } else {
-    checkIfVoted(req.ip)
+    let ip = res.locals.ip || req.ip;
+    checkIfVoted(ip)
       .then(voted => {
         res.locals.shouldLike = !voted;
         next();
@@ -90,6 +100,7 @@ const getStock = (req, res, next) => {
 
   shouldLike = res.locals.shouldLike;
 
+  let ip = res.locals.ip || req.ip;
   res.locals.stocks = [];
   req.query.stock.forEach(symbol => {    
     res.locals.stocks.push(_findUpdatedStock(symbol, shouldLike));    
@@ -111,7 +122,7 @@ const getStock = (req, res, next) => {
       });
       
       if (shouldLike) {
-        addVoter(req.ip)
+        addVoter(ip)
           .then(() => {
             res.json({ stockData: [...cleanedStocks] });
           })
@@ -135,6 +146,7 @@ module.exports = {
   _fetchNewStock,
   _findUpdatedStock,
   sanitizeAndValidateQueries,
+  extractIp,
   setLikePermission,
   getStock,
   handleNoQueryStock

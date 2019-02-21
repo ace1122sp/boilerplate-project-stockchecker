@@ -1,5 +1,4 @@
 'use strict';
-require('dotenv').config();
 
 const config = require('./config');
 const express = require('express');
@@ -16,6 +15,7 @@ const runner = require('./test-runner');
 const errorHandler = config.app.env === 'PRODUCTION' ? require('./libs/prodErrorHandler') : require('./libs/devErrorHandler');
  
 const app = express();
+app.enable('trust-proxy');
 
 // connect to db this need to be edited and cleaned up
 mongoose.Promise = global.Promise;
