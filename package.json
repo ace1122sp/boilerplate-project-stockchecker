@@ -6,6 +6,7 @@
 	"scripts": {
 		"start": "node server.js",
 		"get-client-bundle": "webpack --mode development --hot",
+		"client-build": "webpack --mode production",
 		"dev-client": "webpack --mode development --watch",
 		"test": "mocha ./tests"
 	},
