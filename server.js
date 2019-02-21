@@ -30,9 +30,10 @@ mongoose.connect(config.db.mongoURI, { useNewUrlParser: true })
 
 app.use(cors({ origin: '*' })); //For FCC testing purposes only
 app.use(helmet());
+app.use(helmet.referrerPolicy({ policy: 'same-origin' }));
 app.use((req, res, next) => {
   res.set({
-    'Content-Security-Policy': "default-src 'self' 'unsafe-eval' 'unsafe-inline'; img-src 'self' *.unsplash.com/uJhgEXPqSPk; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; object-src 'none'"
+    'Content-Security-Policy': "default-src 'self' 'unsafe-eval' 'unsafe-inline'; img-src 'self' *.unsplash.com/uJhgEXPqSPk; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; object-src 'none'",
   });
 
   next();
